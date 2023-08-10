@@ -9,10 +9,10 @@ class TicketCategoryFactory extends Factory
 {
     protected $model = TicketCategory::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
-
+            'name' => $this->faker->name(),
         ];
     }
 }

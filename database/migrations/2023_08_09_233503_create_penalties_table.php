@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('penalties', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('description');
-            $table->float('ammount')->nullable();
+            $table->float('amount')->nullable();
+            $table->integer('status');
             $table->foreignId('house_id')->constrained('houses')->nullable();
             $table->foreignId('user_id')->constrained('users')->nullable();
             $table->foreignId('penalty_category_id')->constrained('penalty_categories')->nullable();

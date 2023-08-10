@@ -9,10 +9,10 @@ class PenaltyCategoryFactory extends Factory
 {
     protected $model = PenaltyCategory::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
-
+            'name' => $this->faker->name(),
         ];
     }
 }
