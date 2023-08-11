@@ -22,6 +22,7 @@
         <div class="container-fluid">
             @yield('content')
         </div>
+        @include('partials.footer')
     </div>
 </div>
 <script src="{{ asset('libs/jquery/dist/jquery.min.js') }}"></script>
