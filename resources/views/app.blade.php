@@ -19,7 +19,7 @@
     <!-- Main -->
     <div class="body-wrapper">
         @include('partials.header')
-        <div class="container-fluid">
+        <div class="p-5">
             @yield('content')
         </div>
         @include('partials.footer')
