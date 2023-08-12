@@ -18,7 +18,7 @@
     @include('partials.sidebar')
     <!-- Main -->
     <div class="body-wrapper">
-        @include('partials.header')
+        @include('partials.navbar')
         <div class="p-5">
             @yield('content')
         </div>
