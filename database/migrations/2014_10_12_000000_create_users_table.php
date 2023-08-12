@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('active')->default(true);
             $table->integer('rol');
             $table->json('family_list')->nullable();
+            $table->string('remember_token')->nullable();
             $table->timestamps();
         });
     }

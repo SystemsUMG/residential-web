@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Livewire\Auth\Login;
+use App\Http\Livewire\Auth\Logout;
+use App\Http\Livewire\Auth\Register;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,47 +15,45 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::middleware('guest')->group(function () {
+    Route::get('login', Login::class)->name('login');
+    Route::get('logout', Logout::class)->name('logout');
+    Route::get('register', Register::class)->name('register');
+});
 
-Route::get('/', function () {
-    return view('templates.dashboard');
-})->name('home');
+Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return view('templates.dashboard');
+    })->name('home');
 
-//Rutas para ejemplos templates
-Route::prefix('example')->group(function () {
-    Route::get('buttons', function () {
-        return view('templates.ui-buttons');
-    })->name('buttons');
+    //Rutas para ejemplos templates
+    Route::prefix('example')->group(function () {
+        Route::get('buttons', function () {
+            return view('templates.ui-buttons');
+        })->name('buttons');
 
-    Route::get('alerts', function () {
-        return view('templates.ui-alerts');
-    })->name('alerts');
+        Route::get('alerts', function () {
+            return view('templates.ui-alerts');
+        })->name('alerts');
 
-    Route::get('cards', function () {
-        return view('templates.ui-card');
-    })->name('cards');
+        Route::get('cards', function () {
+            return view('templates.ui-card');
+        })->name('cards');
 
-    Route::get('forms', function () {
-        return view('templates.ui-forms');
-    })->name('forms');
+        Route::get('forms', function () {
+            return view('templates.ui-forms');
+        })->name('forms');
 
-    Route::get('fonts', function () {
-        return view('templates.ui-typography');
-    })->name('fonts');
+        Route::get('fonts', function () {
+            return view('templates.ui-typography');
+        })->name('fonts');
 
-    Route::get('login', function () {
-        return view('auth.login');
-    })->name('login');
+        Route::get('icons', function () {
+            return view('templates.icon-tabler');
+        })->name('icons');
 
-    Route::get('register', function () {
-        return view('auth.register');
-    })->name('register');
-
-    Route::get('icons', function () {
-        return view('templates.icon-tabler');
-    })->name('icons');
-
-    Route::get('sample', function () {
-        return view('templates.sample-page');
-    })->name('sample');
-
+        Route::get('sample', function () {
+            return view('templates.sample-page');
+        })->name('sample');
+    });
 });
