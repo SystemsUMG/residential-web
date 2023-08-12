@@ -3,6 +3,7 @@
 use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\Logout;
 use App\Http\Livewire\Auth\Register;
+use App\Http\Controllers\PenaltyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::middleware('guest')->group(function () {
     Route::get('login', Login::class)->name('login');
     Route::get('logout', Logout::class)->name('logout');
@@ -25,6 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('templates.dashboard');
     })->name('home');
+
+    Route::resource('penalties', PenaltyController::class);
 
     //Rutas para ejemplos templates
     Route::prefix('example')->group(function () {
@@ -56,4 +60,5 @@ Route::middleware('auth')->group(function () {
             return view('templates.sample-page');
         })->name('sample');
     });
+
 });

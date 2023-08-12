@@ -19,9 +19,10 @@
     <!-- Main -->
     <div class="body-wrapper">
         @include('partials.navbar')
-        <div class="container-fluid">
+        <div class="p-5">
             @yield('content')
         </div>
+        @include('partials.footer')
     </div>
 </div>
 <script src="{{ asset('libs/jquery/dist/jquery.min.js') }}"></script>

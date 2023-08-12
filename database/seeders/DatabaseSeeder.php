@@ -25,8 +25,37 @@ class DatabaseSeeder extends Seeder
         ]);
         User::factory(10)->create();
 
-        PenaltyCategory::factory(4)->create();
-        TicketCategory::factory(4)->create();
+        PenaltyCategory::factory(1)->create();
+
+        TicketCategory::factory(1)->create([
+            'name' => 'Falta de agua'
+        ]);
+
+        TicketCategory::factory(1)->create([
+            'name' => 'Cortes de luz'
+        ]);
+
+        TicketCategory::factory(1)->create([
+            'name' => 'Escandalos de vecinos'
+        ]);
+
+        TicketCategory::factory(1)->create([
+            'name' => 'Robos'
+        ]);
+
+        TicketCategory::factory(1)->create([
+            'name' => 'Vandalismo'
+        ]);
+
+        TicketCategory::factory(1)->create([
+            'name' => 'Basura en las calles'
+        ]);
+
+        TicketCategory::factory(1)->create([
+            'name' => 'Vehículos mal estacionados'
+        ]);
+
+        
 
         House::factory(30)->create();
 
