@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\House;
 use App\Models\Penalty;
 use App\Models\PenaltyCategory;
@@ -25,37 +24,23 @@ class DatabaseSeeder extends Seeder
         ]);
         User::factory(10)->create();
 
-        PenaltyCategory::factory(1)->create();
+        PenaltyCategory::factory(10)->create();
 
-        TicketCategory::factory(1)->create([
-            'name' => 'Falta de agua'
-        ]);
+        $categories = [
+            'Falta de agua',
+            'Cortes de luz',
+            'Escándalos de vecinos',
+            'Robos',
+            'Vandalismo',
+            'Basura en las calles',
+            'Vehículos mal estacionados'
+        ];
 
-        TicketCategory::factory(1)->create([
-            'name' => 'Cortes de luz'
-        ]);
-
-        TicketCategory::factory(1)->create([
-            'name' => 'Escandalos de vecinos'
-        ]);
-
-        TicketCategory::factory(1)->create([
-            'name' => 'Robos'
-        ]);
-
-        TicketCategory::factory(1)->create([
-            'name' => 'Vandalismo'
-        ]);
-
-        TicketCategory::factory(1)->create([
-            'name' => 'Basura en las calles'
-        ]);
-
-        TicketCategory::factory(1)->create([
-            'name' => 'Vehículos mal estacionados'
-        ]);
-
-        
+        foreach ($categories as $category) {
+            TicketCategory::factory(1)->create([
+                'name' => $category
+            ]);
+        }
 
         House::factory(30)->create();
 
