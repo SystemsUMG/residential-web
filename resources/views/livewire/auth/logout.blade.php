@@ -1,1 +1,4 @@
-<button type="button" class="btn btn-outline-primary mx-3 mt-2 d-block" wire:click="logout">Cerrar Sesión</button>
+<button type="button" class="d-flex align-items-center gap-2 dropdown-item" wire:click="logout">
+    <i class="ti ti-logout fs-6"></i>
+    Cerrar Sesión
+</button>

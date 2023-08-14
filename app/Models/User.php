@@ -22,6 +22,7 @@ class User extends Authenticatable
         'active',
         'rol',
         'family_list',
+        'theme',
     ];
 
     protected $hidden = [

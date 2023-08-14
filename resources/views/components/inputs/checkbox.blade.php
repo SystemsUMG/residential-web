@@ -22,12 +22,12 @@
     >
 
     @if($label ?? null)
-        <label class="form-check-label" for="{{ $id ?? $name }}">
+        <label class="form-check-label text-dark-emphasis" for="{{ $id ?? $name }}">
             {{ $label }}
         </label>
     @endif
 </div>
 
 @error($name)
-    @include('components.inputs.partials.error')
+@include('components.inputs.partials.error')
 @enderror

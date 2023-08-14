@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -21,6 +20,7 @@ return new class extends Migration
             $table->boolean('active')->default(true);
             $table->integer('rol');
             $table->json('family_list')->nullable();
+            $table->string('theme')->default('light');
             $table->string('remember_token')->nullable();
             $table->timestamps();
         });

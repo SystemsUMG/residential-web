@@ -11,6 +11,11 @@
 </head>
 
 <body>
+<nav class="navbar navbar-expand-lg bg-transparent fixed-top">
+    <div class="col-12 text-end pe-5 text-dark-emphasis">
+        <i class="ti ti-sun-high ti-moon fs-6" id="themeButton"></i>
+    </div>
+</nav>
 <!--  Body Wrapper -->
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6"
      data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
@@ -24,7 +29,7 @@
                             <a href="#" class="text-nowrap logo-img text-center d-block py-3 w-100">
                                 <img src="{{ asset('images/logos/logo-residential.png') }}" width="180" alt="">
                             </a>
-                            <p class="text-center">"Tu Hogar, tu control, ¡simplifica y domina!"</p>
+                            <p class="text-center text-dark-emphasis">"Tu Hogar, tu control, ¡simplifica y domina!"</p>
                             {{ $slot }}
                         </div>
                     </div>
@@ -35,6 +40,7 @@
 </div>
 <x-toast/>
 
+<script src="{{ asset('js/theme.js') }}"></script>
 <script src="{{ asset('libs/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ asset('libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 @livewireScripts

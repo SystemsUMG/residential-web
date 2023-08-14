@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="{{ auth()->user()->theme }}">
 
 <head>
     <meta charset="utf-8">
@@ -19,12 +19,19 @@
     <!-- Main -->
     <div class="body-wrapper">
         @include('partials.navbar')
-        <div class="p-5">
+        <div class="pt-5 px-5">
             @yield('content')
+            @if(isset($slot))
+                <div class="mt-5">
+                    {{ $slot }}
+                </div>
+            @endif
         </div>
         @include('partials.footer')
     </div>
 </div>
+@livewireScripts
+<script src="{{ asset('js/theme.js') }}"></script>
 <script src="{{ asset('libs/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ asset('libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('js/sidebarmenu.js') }}"></script>
@@ -32,7 +39,5 @@
 <script src="{{ asset('libs/apexcharts/dist/apexcharts.min.js') }}"></script>
 <script src="{{ asset('libs/simplebar/dist/simplebar.js') }}"></script>
 <script src="{{ asset('js/dashboard.js') }}"></script>
-@livewireScripts
 </body>
-
 </html>
