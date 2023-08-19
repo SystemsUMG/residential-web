@@ -1,3 +1,1 @@
-<label class="form-label text-dark-emphasis" for="{{ $name }}">
-    {{ $label }}
-</label>
+<label class="text-dark-emphasis" for="{{ $name }}">{{ $label }}</label>

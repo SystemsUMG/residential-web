@@ -6,23 +6,25 @@
     'max' => null,
     'step' => null,
 ])
-@if($label ?? null)
-    @include('components.inputs.partials.label')
-@endif
 
-<div class="input-group">
-    <input
-        type="password"
-        id="{{ $name }}"
-        name="{{ $name }}"
-        value="{{ old($name, $value ?? '') }}"
-        {{ ($required ?? false) ? 'required' : '' }}
-        {{ $attributes->merge(['class' => 'form-control']) }}
-        {{ $min ? "min={$min}" : '' }}
-        {{ $max ? "max={$max}" : '' }}
-        {{ $step ? "step={$step}" : '' }}
-        autocomplete="off"
-    >
+<div class="input-group mb-3">
+    <div class="form-floating">
+        <input
+            type="password"
+            id="{{ $name }}"
+            name="{{ $name }}"
+            value="{{ old($name, $value ?? '') }}"
+            {{ ($required ?? false) ? 'required' : '' }}
+            {{ $attributes->merge(['class' => 'form-control']) }}
+            {{ $min ? "min={$min}" : '' }}
+            {{ $max ? "max={$max}" : '' }}
+            {{ $step ? "step={$step}" : '' }}
+            placeholder=""
+        >
+        @if($label ?? null)
+            @include('components.inputs.partials.label')
+        @endif
+    </div>
     <div class="input-group-text">
         <i class="ti ti-eye-off fs-6" id="togglePassword"></i>
     </div>

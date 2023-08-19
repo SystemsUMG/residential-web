@@ -7,6 +7,7 @@
     <title>@yield('title')</title>
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/logos/favicon.png') }}"/>
     <link href="{{ asset('css/styles.min.css') }}" rel="stylesheet">
+    @stack('styles')
     @livewireStyles
 </head>
 
@@ -30,14 +31,17 @@
         @include('partials.footer')
     </div>
 </div>
+<x-toast/>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 @livewireScripts
 <script src="{{ asset('js/theme.js') }}"></script>
-<script src="{{ asset('libs/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ asset('libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('js/sidebarmenu.js') }}"></script>
 <script src="{{ asset('js/app.min.js') }}"></script>
 <script src="{{ asset('libs/apexcharts/dist/apexcharts.min.js') }}"></script>
 <script src="{{ asset('libs/simplebar/dist/simplebar.js') }}"></script>
-<script src="{{ asset('js/dashboard.js') }}"></script>
+@stack('scripts')
 </body>
 </html>

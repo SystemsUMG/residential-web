@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('phone');
             $table->string('password');
             $table->boolean('active')->default(true);
-            $table->integer('rol');
+            $table->integer('role');
             $table->json('family_list')->nullable();
             $table->string('theme')->default('light');
             $table->string('remember_token')->nullable();
