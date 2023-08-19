@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('description');
             $table->float('amount')->nullable();
-            $table->integer('status');
+            $table->string('status')->default('generated');
             $table->foreignId('house_id')->constrained('houses')->nullable();
             $table->foreignId('user_id')->constrained('users')->nullable();
             $table->foreignId('penalty_category_id')->constrained('penalty_categories')->nullable();

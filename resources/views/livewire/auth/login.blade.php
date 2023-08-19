@@ -1,19 +1,14 @@
 <form wire:submit.prevent="login">
-    <div class="mb-3">
-        <x-inputs.text
-            name="email"
-            label="Correo Electrónico"
-            wire:model.defer="email"
-        />
-    </div>
-    <div class="mb-4">
-        <x-inputs.password
-            name="password"
-            label="Contraseña"
-            wire:model.defer="password"
-        />
-
-    </div>
+    <x-inputs.text
+        name="email"
+        label="Correo Electrónico"
+        wire:model.defer="email"
+    />
+    <x-inputs.password
+        name="password"
+        label="Contraseña"
+        wire:model.defer="password"
+    />
     <div class="row mb-4">
         <div class="col-4 col-sm-5">
             <x-inputs.checkbox

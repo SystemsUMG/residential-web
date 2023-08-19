@@ -1,4 +1,4 @@
-<div class="position-absolute top-0 end-0">
+<div class="position-absolute top-0 end-0" style="z-index: 3000">
     <div class="toast" role="alert"
          aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
