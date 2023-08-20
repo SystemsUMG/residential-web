@@ -8,7 +8,6 @@ use App\Models\TicketCategory;
 use App\Models\User;
 use App\Traits\Toast;
 use Livewire\Component;
-use SebastianBergmann\Diff\Exception;
 
 class Tickets extends Component
 {
@@ -47,6 +46,7 @@ class Tickets extends Component
         try {
             $ticket->delete();
             $this->emit('refreshDatatable');
+            $this->emit('closeDeleteModal');
             $this->toast('success', 'Ticket eliminado');
         } catch (\Exception $e) {
             $this->toast('error', $e);
