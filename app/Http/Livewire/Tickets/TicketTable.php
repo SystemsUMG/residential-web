@@ -42,7 +42,9 @@ class TicketTable extends DataTableComponent
                 ->sortable()
                 ->searchable()
                 ->collapseOnMobile(),
-            Column::make("Estado", "status")->sortable()->format(
+            Column::make("Estado", "status")
+                ->searchable()
+                ->sortable()->format(
                 function ($row) {
                     return $this->getTicketStatusBadge($row);
                 }
@@ -87,6 +89,6 @@ class TicketTable extends DataTableComponent
 
     public function delete(Ticket $ticket): void
     {
-        $this->emit('delete', $ticket);
+        $this->emit('showingDeleteModal', $ticket);
     }
 }
