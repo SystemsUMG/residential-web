@@ -14,7 +14,7 @@ class Tickets extends Component
     use Toast;
 
     protected $listeners = ['edit', 'delete'];
-    public $showingModal = false;
+    public $showingModal = false, $isEditing = false;
     public Ticket $ticket;
     public $houses = [], $users = [], $ticketCategories = [];
 
@@ -26,16 +26,22 @@ class Tickets extends Component
         'ticket.ticket_category_id' => 'required',
     ];
 
-    public function store(): void
+    public function createTicket(): void
     {
-        $this->validate();
-
+        $this->ticket = new Ticket();
+        $this->showingModal = true;
+        $this->isEditing = false;
+        $this->ticket->status = 'generated';
+        $this->houses = House::pluck('name', 'id');
+        $this->users = User::where('role', 2)->pluck('name', 'id');
+        $this->ticketCategories = TicketCategory::pluck('name', 'id');
     }
 
     public function edit(Ticket $ticket): void
     {
         $this->ticket = $ticket;
         $this->showingModal = true;
+        $this->isEditing = true;
         $this->houses = House::pluck('name', 'id');
         $this->users = User::where('role', 2)->pluck('name', 'id');
         $this->ticketCategories = TicketCategory::pluck('name', 'id');
