@@ -32,7 +32,7 @@
                     <span class="hide-menu">Penalizaciones</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{ $colorText }}" href="{{ route('penalties.index') }}" aria-expanded="false">
+                    <a class="sidebar-link {{ $colorText }}" href="{{ route('penalties') }}" aria-expanded="false">
                         <span><i class="ti ti-receipt-2"></i></span>
                         <span class="hide-menu">Multas</span>
                     </a>

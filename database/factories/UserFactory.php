@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserType;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -25,7 +26,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'phone' => fake()->unique()->phoneNumber(),
             'password' => Hash::make('password'),
-            'role' => $this->faker->randomElement([2, 3, 4]),
+            'role' => $this->faker->randomElement([UserType::Admin, UserType::Resident, UserType::Guard, UserType::Operator]),
             'family_list' => $familyList,
         ];
     }

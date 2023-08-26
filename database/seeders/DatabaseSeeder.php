@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserType;
 use App\Models\House;
 use App\Models\Penalty;
 use App\Models\PenaltyCategory;
@@ -20,7 +21,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@admin.com',
-            'role' => 1,
+            'role' => UserType::Admin,
         ]);
         User::factory(10)->create();
 

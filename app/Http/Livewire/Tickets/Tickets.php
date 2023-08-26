@@ -2,11 +2,16 @@
 
 namespace App\Http\Livewire\Tickets;
 
+use App\Enums\UserType;
 use App\Models\House;
 use App\Models\Ticket;
 use App\Models\TicketCategory;
 use App\Models\User;
 use App\Traits\Toast;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class Tickets extends Component
@@ -33,7 +38,7 @@ class Tickets extends Component
         $this->isEditing = false;
         $this->ticket->status = 'generated';
         $this->houses = House::pluck('name', 'id');
-        $this->users = User::where('role', 2)->pluck('name', 'id');
+        $this->users = User::where('role', UserType::Resident)->pluck('name', 'id');
         $this->ticketCategories = TicketCategory::pluck('name', 'id');
     }
 
@@ -54,7 +59,7 @@ class Tickets extends Component
             $this->emit('refreshDatatable');
             $this->emit('closeDeleteModal');
             $this->toast('success', 'Ticket eliminado');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->toast('error', $e);
         }
     }
@@ -67,12 +72,12 @@ class Tickets extends Component
             $this->showingModal = false;
             $this->emit('refreshDatatable');
             $this->toast('success', 'Ticket editado');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->toast('error', $e);
         }
     }
 
-    public function render()
+    public function render(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         return view('livewire.tickets.tickets');
     }
