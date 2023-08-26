@@ -5,7 +5,7 @@
                 <h3 class="fw-semibold mb-4 text-dark-emphasis">Tickets</h3>
             </div>
             <div class="col">
-                <button class="btn btn-primary d-flex align-items-center">
+                <button class="btn btn-primary d-flex align-items-center" wire:click="createTicket">
                     <i class="ti ti-circle-plus fs-6 me-2"></i>
                     Nuevo Ticket
                 </button>
@@ -43,10 +43,11 @@
                         <option value="finalized">Finalizado</option>
                     </x-inputs.select>
                     <x-inputs.select
-                        label="Estado"
+                        label="Casa"
                         name="ticket.house_id"
                         wire:model="ticket.house_id"
                     >
+                        <option value="generated">Seleccione una casa</option>
                         @forelse($houses as $id => $house)
                             <option value="{{ $id }}">{!! $house !!}</option>
                         @empty
@@ -58,21 +59,23 @@
                         name="ticket.user_id"
                         wire:model="ticket.user_id"
                     >
+                        <option value="generated">Seleccione una usuario</option>
                         @forelse($users as $id => $user)
                             <option value="{{ $id }}">{{ $user }}</option>
                         @empty
-                            <div></div>
+                            <option value="">Sin usuarios</option>
                         @endforelse
                     </x-inputs.select>
                     <x-inputs.select
-                        label="Usuario"
-                        name="ticket.user_id"
-                        wire:model="ticket.user_id"
+                        label="Categoría"
+                        name="ticket.ticket_category_id"
+                        wire:model="ticket.ticket_category_id"
                     >
+                        <option value="generated">Seleccione una categoría</option>
                         @forelse($ticketCategories as $id => $ticketCategory)
                             <option value="{{ $id }}">{{ $ticketCategory }}</option>
                         @empty
-                            <div></div>
+                            <option value="">Sin Categorías</option>
                         @endforelse
                     </x-inputs.select>
                 </div>
