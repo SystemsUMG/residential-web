@@ -1,49 +1,39 @@
 <?php
 
-namespace App\Http\Livewire\Penalty;
+namespace App\Http\Livewire\Penalties;
 
+use App\Models\Penalty;
 use App\Models\User;
-use Illuminate\Routing\Route;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
-use App\Models\Penalty;
 
-class PenaltyTable extends DataTableComponent
+class PenaltiesTable extends DataTableComponent
 {
     protected $model = Penalty::class;
 
     public function configure(): void
     {
         $this->setPrimaryKey('id');
-    }
-
-    public function edit($id): void
-    {
-        $this->redirectRoute('penalties.edit', $id);
-    }
-
-    public function delete($id): void
-    {
-        $this->redirectRoute('penalties.destroy', $id);
+        $this->setDefaultSort('id', 'desc');
     }
 
     public function columns(): array
     {
         return [
-            Column::make("#", "id")->sortable(),
-            Column::make("Categoría", "penaltyCategory.name")->sortable(),
+            Column::make("#", "id" )->searchable()->sortable(),
             Column::make("Descripción", "description"),
-            Column::make("Cantidad", "amount")->sortable()->format(
+            Column::make("Categoría", "penaltyCategory.name")->searchable()->sortable(),
+            Column::make("Cantidad", "amount")->searchable()->sortable()->format(
                 fn($value) => 'Q.' . $value
             ),
-            Column::make("Casa", "house.name")->sortable(),
-            Column::make("Usuario", "user.id")->sortable()->format(
+            Column::make("Casa", "house.name")->searchable()->sortable(),
+            Column::make("Usuario", "user.id")->searchable()->sortable()->format(
                 function ($row) {
                     $user = User::find($row);
                    return "$user->name $user->surname";
                 }
             )->html(),
-            Column::make("Estado", "status")->sortable()->format(
+            Column::make("Estado", "status")->searchable()->sortable()->format(
                 function ($row) {
                     return match ($row) {
                         1       => '<span class="badge bg-success rounded-3 fw-semibold">Pagado</span>',
@@ -63,5 +53,15 @@ class PenaltyTable extends DataTableComponent
                 }
             )->html(),
         ];
+    }
+
+    public function edit(Penalty $penalty): void
+    {
+        $this->emit('edit', $penalty);
+    }
+
+    public function delete(Penalty $penalty): void
+    {
+        $this->emit('showingDeleteModal', $penalty);
     }
 }
