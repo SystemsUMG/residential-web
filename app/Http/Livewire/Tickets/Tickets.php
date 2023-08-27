@@ -7,7 +7,7 @@ use App\Models\House;
 use App\Models\Ticket;
 use App\Models\TicketCategory;
 use App\Models\User;
-use App\Traits\Toast;
+use App\Traits\ToastTrait;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -16,7 +16,7 @@ use Livewire\Component;
 
 class Tickets extends Component
 {
-    use Toast;
+    use ToastTrait;
 
     protected $listeners = ['edit', 'delete'];
     public $showingModal = false, $isEditing = false;

@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum UserType: string {
     case Admin = 'admin';
-    case Resident = 'resident';
-    case Guard = 'guard';
-    case Operator = 'operator';
+    case Residente = 'resident';
+    case Guardia = 'guard';
+    case Operador = 'operator';
 }

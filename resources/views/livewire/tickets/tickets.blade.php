@@ -38,7 +38,6 @@
                         wire:model="ticket.status"
                     >
                         <option value="generated">Generado</option>
-                        <option value="assigned">Asignado</option>
                         <option value="in_progress">En progreso</option>
                         <option value="finalized">Finalizado</option>
                     </x-inputs.select>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Tickets;
 
-use App\Traits\TicketStatus;
+use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -11,7 +11,7 @@ use App\Models\Ticket;
 
 class TicketTable extends DataTableComponent
 {
-    use TicketStatus;
+    use StatusTrait;
 
     protected $model = Ticket::class;
 
@@ -46,7 +46,7 @@ class TicketTable extends DataTableComponent
                 ->searchable()
                 ->sortable()->format(
                 function ($row) {
-                    return $this->getTicketStatusBadge($row);
+                    return $this->getStatusBadge($row);
                 }
             )->html(),
             Column::make("Casa", "house.name")
