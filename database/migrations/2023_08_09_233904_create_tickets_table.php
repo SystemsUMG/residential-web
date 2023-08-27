@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\StatusType;
 
 return new class extends Migration
 {
@@ -14,7 +15,7 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('description');
-            $table->string('status')->default('generated');
+            $table->string('status')->default(StatusType::Generado->value);
             $table->foreignId('house_id')->constrained('houses')->nullable();
             $table->foreignId('user_id')->constrained('users')->nullable();
             $table->foreignId('ticket_category_id')->constrained('ticket_categories')->nullable();

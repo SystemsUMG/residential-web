@@ -14,6 +14,7 @@
 
 @push('scripts')
     <script>
+
         const toastTypes = {
             'success': {class: 'text-bg-success', iconClass: 'ti-check'},
             'error': {class: 'text-bg-danger', iconClass: 'ti-x'},
@@ -45,5 +46,18 @@
                 myToast.show();
             }
         });
+
+
+        @if (session()->has('success'))
+        toastElement.classList.add(toastTypes['success'].class);
+        toastBody.innerText = "{{ session('success') }}";
+        toastIcon.classList = ['ti', toastTypes['success'].iconClass].join(' ');
+        myToast.show();
+        @elseif (session()->has('error'))
+        toastElement.classList.add(toastTypes['error'].class);
+        toastBody.innerText = "{{ session('error') }}";
+        toastIcon.classList = ['ti', toastTypes['error'].iconClass].join(' ');
+        myToast.show();
+        @endif
     </script>
 @endpush

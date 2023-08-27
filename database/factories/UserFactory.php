@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\TypeOfKinship;
 use App\Enums\UserType;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -17,7 +18,39 @@ class UserFactory extends Factory
             $familyList[] = [
                 'name' => fake()->name(),
                 'age' => fake()->numberBetween(1, 80),
-                'relationship' => fake()->randomElement(['parent', 'child', 'spouse', 'sibling']),
+                'relationship' => fake()->randomElement([
+                    TypeOfKinship::Padre,
+                    TypeOfKinship::Madre,
+                    TypeOfKinship::Hijo,
+                    TypeOfKinship::Hija,
+                    TypeOfKinship::Hermano,
+                    TypeOfKinship::Hermana,
+                    TypeOfKinship::Abuelo,
+                    TypeOfKinship::Abuela,
+                    TypeOfKinship::Nieto,
+                    TypeOfKinship::Nieta,
+                    TypeOfKinship::Tio,
+                    TypeOfKinship::Tia,
+                    TypeOfKinship::Sobrino,
+                    TypeOfKinship::Sobrina,
+                    TypeOfKinship::PrimoPrima,
+                    TypeOfKinship::EsposoMarido,
+                    TypeOfKinship::EsposaMujer,
+                    TypeOfKinship::Suegro,
+                    TypeOfKinship::Suegra,
+                    TypeOfKinship::Yerno,
+                    TypeOfKinship::Nuera,
+                    TypeOfKinship::Cuñado,
+                    TypeOfKinship::Cuñada,
+                    TypeOfKinship::Padrastro,
+                    TypeOfKinship::Madrastra,
+                    TypeOfKinship::Hijastro,
+                    TypeOfKinship::Hijastra,
+                    TypeOfKinship::MedioHermano,
+                    TypeOfKinship::MediaHermana,
+                    TypeOfKinship::Padrino,
+                    TypeOfKinship::Madrina,
+                ]),
             ];
         }
         return [
@@ -26,7 +59,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'phone' => fake()->unique()->phoneNumber(),
             'password' => Hash::make('password'),
-            'role' => $this->faker->randomElement([UserType::Admin, UserType::Resident, UserType::Guard, UserType::Operator]),
+            'role' => $this->faker->randomElement([UserType::Residente, UserType::Guardia, UserType::Operador]),
             'family_list' => $familyList,
         ];
     }

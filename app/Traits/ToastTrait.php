@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use Livewire\Event;
 
-trait Toast
+trait ToastTrait
 {
     public function toast(string $type = '', string $message = ''): Event
     {

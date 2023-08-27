@@ -16,7 +16,7 @@
     <x-modal wire:model="showingModal">
         <div class="modal-content">
             <div class="modal-header pb-0">
-                <h5 class="modal-title">Editar</h5>
+                <h5 class="modal-title">{!! $modalTitle !!}</h5>
                 <button
                     type="button"
                     class="btn"
@@ -37,16 +37,30 @@
                         name="penalty.amount"
                         wire:model="penalty.amount"
                     />
-                    <x-inputs.select
-                        label="Estado"
-                        name="penalty.status"
-                        wire:model="penalty.status"
-                    >
-                        <option value="generated">Generado</option>
-                        <option value="assigned">Asignado</option>
-                        <option value="in_progress">En progreso</option>
-                        <option value="finalized">Finalizado</option>
-                    </x-inputs.select>
+                    @if($isEditing)
+                        <x-inputs.select
+                            label="Estado"
+                            name="penalty.status"
+                            wire:model="penalty.status"
+                        >
+                            <option value="">Seleccione un estado</option>
+                            <option value="{{ \App\Enums\StatusType::Aprobado }}">Aprobado</option>
+                            <option value="{{ \App\Enums\StatusType::Rechazado }}">Rechazado</option>
+                            <option value="{{ \App\Enums\StatusType::Pagado }}">Pagado</option>
+                        </x-inputs.select>
+                        <x-inputs.select
+                            label="Guardia"
+                            name="penalty.user_id"
+                            wire:model="penalty.user_id"
+                        >
+                            <option value="generated">Seleccione un guardia</option>
+                            @forelse($users as $id => $user)
+                                <option value="{{ $id }}">{{ $user }}</option>
+                            @empty
+                                <option value="">Sin usuarios</option>
+                            @endforelse
+                        </x-inputs.select>
+                    @endif
                     <x-inputs.select
                         label="Casa"
                         name="penalty.house_id"
@@ -57,18 +71,6 @@
                             <option value="{{ $id }}">{!! $house !!}</option>
                         @empty
                             <div></div>
-                        @endforelse
-                    </x-inputs.select>
-                    <x-inputs.select
-                        label="Usuario"
-                        name="penalty.user_id"
-                        wire:model="penalty.user_id"
-                    >
-                        <option value="generated">Seleccione una usuario</option>
-                        @forelse($users as $id => $user)
-                            <option value="{{ $id }}">{{ $user }}</option>
-                        @empty
-                            <option value="">Sin usuarios</option>
                         @endforelse
                     </x-inputs.select>
                     <x-inputs.select

@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Auth;
 
 use App\Models\User;
-use App\Traits\Toast;
+use App\Traits\ToastTrait;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -12,7 +12,7 @@ use Livewire\Component;
 
 class Login extends Component
 {
-    use Toast;
+    use ToastTrait;
 
     public $email, $password, $remember_token = false;
     protected $rules = [
