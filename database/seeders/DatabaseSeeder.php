@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Enums\UserType;
 use App\Models\House;
 use App\Models\Penalty;
 use App\Models\PenaltyCategory;
@@ -21,12 +21,27 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@admin.com',
-            'rol' => 1,
+            'role' => UserType::Admin,
         ]);
         User::factory(10)->create();
 
-        PenaltyCategory::factory(4)->create();
-        TicketCategory::factory(4)->create();
+        PenaltyCategory::factory(10)->create();
+
+        $categories = [
+            'Falta de agua',
+            'Cortes de luz',
+            'Escándalos de vecinos',
+            'Robos',
+            'Vandalismo',
+            'Basura en las calles',
+            'Vehículos mal estacionados'
+        ];
+
+        foreach ($categories as $category) {
+            TicketCategory::factory(1)->create([
+                'name' => $category
+            ]);
+        }
 
         House::factory(30)->create();
 

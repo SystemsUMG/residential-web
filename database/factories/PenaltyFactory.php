@@ -17,7 +17,7 @@ class PenaltyFactory extends Factory
         return [
             'description' => $this->faker->text(50),
             'amount' => $this->faker->randomFloat(2, 0, 100),
-            'status' => $this->faker->randomElement([1, 4]),
+            'status' => $this->faker->randomElement(['generated', 'approved', 'rejected']),
             'house_id' => House::pluck('id')->random(),
             'user_id' => User::pluck('id')->random(),
             'penalty_category_id' => PenaltyCategory::pluck('id')->random(),
