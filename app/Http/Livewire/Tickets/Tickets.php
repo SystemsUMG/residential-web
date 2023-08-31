@@ -72,7 +72,7 @@ class Tickets extends Component
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            $this->toast('error', $e);
+            $this->toast('error', errorHelper($e));
         }
     }
 
@@ -100,7 +100,7 @@ class Tickets extends Component
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->toast('error', $e);
+            $this->toast('error', errorHelper($e));
         }
     }
 
@@ -112,11 +112,11 @@ class Tickets extends Component
             $this->ticket->save();
             $this->showingModal = false;
             $this->emit('refreshDatatable');
-            $this->toast('success', 'Ticket editado');
+            $this->toast('success', $this->isEditing ? 'Ticket editado' : 'Ticket creado');
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            $this->toast('error', $e);
+            $this->toast('error', errorHelper($e));
         }
     }
 

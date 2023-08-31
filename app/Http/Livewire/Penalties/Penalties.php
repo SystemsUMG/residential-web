@@ -34,6 +34,7 @@ class Penalties extends Component
         'penalty.user_id' => 'required_if:isEditing,true|exists:users,id',
         'penalty.penalty_category_id' => 'required|exists:penalty_categories,id',
     ];
+
     public function mount(): void
     {
         $this->houses = House::pluck('name', 'id');
@@ -72,7 +73,7 @@ class Penalties extends Component
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->toast('error', $e);
+            $this->toast('error', errorHelper($e));
         }
     }
 
@@ -80,7 +81,7 @@ class Penalties extends Component
     {
         try {
             DB::beginTransaction();
-            switch ($penalty->status){
+            switch ($penalty->status) {
                 case StatusType::Pagado->value:
                 case StatusType::Generado->value:
                     $penalty->status = StatusType::Aprobado;
@@ -98,7 +99,7 @@ class Penalties extends Component
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->toast('error', $e);
+            $this->toast('error', errorHelper($e));
         }
     }
 
@@ -110,11 +111,11 @@ class Penalties extends Component
             $this->penalty->save();
             $this->showingModal = false;
             $this->emit('refreshDatatable');
-            $this->toast('success', 'Ticket editado');
+            $this->toast('success', $this->isEditing ? 'Ticket editado' : 'Ticket creado');
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->toast('error', $e);
+            $this->toast('error', errorHelper($e));
         }
     }
 
