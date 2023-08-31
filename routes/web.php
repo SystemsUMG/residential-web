@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('guest')->group(function () {
     Route::get('login', Login::class)->name('login');
     Route::get('logout', Logout::class)->name('logout');
-    Route::get('register', Register::class)->name('register');
+    //Route::get('register', Register::class)->name('register');
 });
 
 Route::middleware('auth')->group(function () {

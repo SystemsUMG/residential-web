@@ -103,12 +103,6 @@
                         <span class="hide-menu">Login</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link {{ $colorText }}" href="{{ route('register') }}" aria-expanded="false">
-                        <span><i class="ti ti-user-plus"></i></span>
-                        <span class="hide-menu">Register</span>
-                    </a>
-                </li>
                 <li class="nav-small-cap text-dark-emphasis">
                     <span class="hide-menu">EXTRA</span>
                 </li>
