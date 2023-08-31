@@ -50,11 +50,11 @@ class UsersTable extends DataTableComponent
                 ->format(function ($value) {
                     return getRoleName($value);
                 }),
-            Column::make("Lista de Familiares", "family_list")
-                ->format(function ($value) {
-                    $count = $value ? count($value) : 0;
-                    $value = json_encode($value);
-                    return "<span class='badge text-bg-primary' wire:click='seeFamily($value)'>$count</span>";
+            Column::make("Lista de Familiares")
+                ->label(function ($row) {
+                   $id = $row->id;
+                   $count = count($row->family_list ?? []);
+                    return "<span class='badge text-bg-primary cursor-pointer' wire:click='seeFamily($id)'>$count</span>";
                 })->html(),
             Column::make("Creación", "created_at")
                 ->sortable(),
