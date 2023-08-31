@@ -20,7 +20,7 @@ class User extends Authenticatable
         'phone',
         'password',
         'active',
-        'rol',
+        'role',
         'family_list',
         'theme',
     ];

@@ -7,6 +7,7 @@ use App\Http\Livewire\Penalties\Penalties;
 use App\Http\Livewire\PenaltyCategories\PenaltyCategories;
 use App\Http\Livewire\TicketCategories\TicketCategories;
 use App\Http\Livewire\Tickets\Tickets;
+use App\Http\Livewire\Users\Users;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,13 +24,16 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('guest')->group(function () {
     Route::get('login', Login::class)->name('login');
     Route::get('logout', Logout::class)->name('logout');
-    Route::get('register', Register::class)->name('register');
+    //Route::get('register', Register::class)->name('register');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
+    Route::get('', function () {
         return view('templates.dashboard');
     })->name('home');
+    Route::prefix('users')->group(function () {
+        Route::get('', Users::class)->name('users');
+    });
     Route::prefix('tickets')->group(function () {
         Route::get('', Tickets::class)->name('tickets');
         Route::get('categories', TicketCategories::class)->name('tickets.categories');
