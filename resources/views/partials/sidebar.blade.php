@@ -37,6 +37,12 @@
                         <span class="hide-menu">Multas</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ $colorText }}" href="{{ route('penalties.categories') }}" aria-expanded="false">
+                        <span><i class="ti ti-receipt-2"></i></span>
+                        <span class="hide-menu">Categorías de multas</span>
+                    </a>
+                </li>
 
                 {{-- Tickets --}}
                 <li class="nav-small-cap text-dark-emphasis">
@@ -46,6 +52,12 @@
                     <a class="sidebar-link {{ $colorText }}" href="{{ route('tickets') }}" aria-expanded="false">
                         <span><i class="ti ti-receipt-2"></i></span>
                         <span class="hide-menu">Tickets</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ $colorText }}" href="{{ route('tickets.categories') }}" aria-expanded="false">
+                        <span><i class="ti ti-receipt-2"></i></span>
+                        <span class="hide-menu">Categorías de tickets</span>
                     </a>
                 </li>
 

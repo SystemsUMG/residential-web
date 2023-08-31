@@ -4,6 +4,8 @@ use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\Logout;
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Penalties\Penalties;
+use App\Http\Livewire\PenaltyCategories\PenaltyCategories;
+use App\Http\Livewire\TicketCategories\TicketCategories;
 use App\Http\Livewire\Tickets\Tickets;
 use Illuminate\Support\Facades\Route;
 
@@ -28,9 +30,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('templates.dashboard');
     })->name('home');
-
-    Route::get('tickets', Tickets::class)->name('tickets');
-    Route::get('penalties', Penalties::class)->name('penalties');
+    Route::prefix('tickets')->group(function () {
+        Route::get('', Tickets::class)->name('tickets');
+        Route::get('categories', TicketCategories::class)->name('tickets.categories');
+    });
+    Route::prefix('penalties')->group(function () {
+        Route::get('', Penalties::class)->name('penalties');
+        Route::get('categories', PenaltyCategories::class)->name('penalties.categories');
+    });
 
     //Rutas para ejemplos templates
     Route::prefix('example')->group(function () {
