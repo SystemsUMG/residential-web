@@ -31,7 +31,10 @@ class PenaltiesTable extends DataTableComponent
     {
         return [
             Column::make("#", "id")->searchable()->sortable(),
-            Column::make("Descripción", "description"),
+            Column::make("Descripción", "description")
+                ->sortable()
+                ->searchable()
+                ->collapseOnMobile(),
             Column::make("Categoría", "penaltyCategory.name")->searchable()->sortable(),
             Column::make("Cantidad", "amount")->searchable()->sortable()->format(
                 fn($value) => 'Q.' . $value

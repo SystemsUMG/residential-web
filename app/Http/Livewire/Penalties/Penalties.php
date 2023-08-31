@@ -34,31 +34,31 @@ class Penalties extends Component
         'penalty.user_id' => 'required_if:isEditing,true|exists:users,id',
         'penalty.penalty_category_id' => 'required|exists:penalty_categories,id',
     ];
-
-    public function createPenalty(): void
+    public function mount(): void
     {
-        $this->penalty = new Penalty();
-        $this->showingModal = true;
-        $this->isEditing = false;
-        $this->resetErrorBag();
-        $this->modalTitle = 'Crear multa';
-        $this->penalty->status = StatusType::Generado;
-        $this->penalty->user_id = auth()->user()->id;
         $this->houses = House::pluck('name', 'id');
         $this->users = User::where('role', UserType::Guardia)->pluck('name', 'id');
         $this->penaltyCategories = PenaltyCategory::pluck('name', 'id');
     }
 
+    public function createPenalty(): void
+    {
+        $this->penalty = new Penalty();
+        $this->modalTitle = 'Crear multa';
+        $this->resetErrorBag();
+        $this->isEditing = false;
+        $this->showingModal = true;
+        $this->penalty->status = StatusType::Generado;
+        $this->penalty->user_id = auth()->user()->id;
+    }
+
     public function edit(Penalty $penalty): void
     {
         $this->penalty = $penalty;
-        $this->showingModal = true;
-        $this->isEditing = true;
-        $this->resetErrorBag();
         $this->modalTitle = 'Editar multa';
-        $this->houses = House::pluck('name', 'id');
-        $this->users = User::where('role', UserType::Guardia)->pluck('name', 'id');
-        $this->penaltyCategories = PenaltyCategory::pluck('name', 'id');
+        $this->resetErrorBag();
+        $this->isEditing = true;
+        $this->showingModal = true;
     }
 
     public function delete(Penalty $penalty): void

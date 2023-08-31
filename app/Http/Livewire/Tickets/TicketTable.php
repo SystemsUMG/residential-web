@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Tickets;
 
+use App\Models\User;
 use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -25,11 +26,7 @@ class TicketTable extends DataTableComponent
     {
         return Ticket::query()
             ->with('house', 'user', 'ticketCategory')
-            ->join('users', 'tickets.user_id', '=', 'users.id')
-            ->select(
-                DB::raw("CONCAT(users.name, ' ', users.surname) as user_name"),
-                DB::raw("DATE_FORMAT(tickets.created_at, '%d-%m-%Y %H:%i:%s') as created_at")
-            );
+            ->select('tickets.*');
     }
 
     public function columns(): array
@@ -42,32 +39,27 @@ class TicketTable extends DataTableComponent
                 ->sortable()
                 ->searchable()
                 ->collapseOnMobile(),
-            Column::make("Estado", "status")
-                ->searchable()
-                ->sortable()->format(
+            Column::make("Estado")->label(
                 function ($row) {
-                    return $this->getStatusBadge($row);
+                    return "<div wire:click='changeStatus({$row->id})' class='cursor-pointer'>
+                                    {$this->getStatusBadge($row->status)}</div>";
                 }
             )->html(),
             Column::make("Casa", "house.name")
                 ->sortable()
                 ->searchable(),
-            Column::make("Usuario")->sortable()->label(
+            Column::make("Residente", "user.id")->searchable()->sortable()->format(
                 function ($row) {
-                    return $row->user_name;
+                    $user = User::find($row);
+                    return "$user->name $user->surname";
                 }
             )->html(),
             Column::make("Categoría", "ticketCategory.name")
                 ->sortable()
                 ->searchable(),
-            Column::make("Fecha")
+            Column::make("Fecha", "created_at")
                 ->sortable()
-                ->searchable()
-                ->label(
-                    function ($row) {
-                        return $row->created_at;
-                    }
-                )->html(),
+                ->searchable(),
             Column::make("Acciones")->label(
                 function ($row) {
                     $edit = "<button class='btn btn-success' wire:click='edit({$row->id})'>
@@ -90,5 +82,10 @@ class TicketTable extends DataTableComponent
     public function delete(Ticket $ticket): void
     {
         $this->emit('showingDeleteModal', $ticket);
+    }
+
+    public function changeStatus(Ticket $ticket): void
+    {
+        $this->emit('changeStatus', $ticket);
     }
 }

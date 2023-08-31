@@ -32,15 +32,31 @@
                         name="ticket.description"
                         wire:model="ticket.description"
                     />
-                    <x-inputs.select
-                        label="Estado"
-                        name="ticket.status"
-                        wire:model="ticket.status"
-                    >
-                        <option value="generated">Generado</option>
-                        <option value="in_progress">En progreso</option>
-                        <option value="finalized">Finalizado</option>
-                    </x-inputs.select>
+                    @if($isEditing)
+                        <x-inputs.select
+                            label="Estado"
+                            name="ticket.status"
+                            wire:model="ticket.status"
+                        >
+                            <option value="">Seleccione un estado</option>
+                            <option value="{{ \App\Enums\StatusType::Generado }}">Generado</option>
+                            <option value="{{ \App\Enums\StatusType::Asignado }}">Asignado</option>
+                            <option value="{{ \App\Enums\StatusType::EnProgreso }}">En Progreso</option>
+                            <option value="{{ \App\Enums\StatusType::Finalizado }}">Finalizado</option>
+                        </x-inputs.select>
+                        <x-inputs.select
+                            label="Residente"
+                            name="ticket.user_id"
+                            wire:model="ticket.user_id"
+                        >
+                            <option value="generated">Seleccione un residente</option>
+                            @forelse($users as $id => $user)
+                                <option value="{{ $id }}">{{ $user }}</option>
+                            @empty
+                                <option value="">Sin usuarios</option>
+                            @endforelse
+                        </x-inputs.select>
+                    @endif
                     <x-inputs.select
                         label="Casa"
                         name="ticket.house_id"
@@ -51,18 +67,6 @@
                             <option value="{{ $id }}">{!! $house !!}</option>
                         @empty
                             <div></div>
-                        @endforelse
-                    </x-inputs.select>
-                    <x-inputs.select
-                        label="Usuario"
-                        name="ticket.user_id"
-                        wire:model="ticket.user_id"
-                    >
-                        <option value="generated">Seleccione una usuario</option>
-                        @forelse($users as $id => $user)
-                            <option value="{{ $id }}">{{ $user }}</option>
-                        @empty
-                            <option value="">Sin usuarios</option>
                         @endforelse
                     </x-inputs.select>
                     <x-inputs.select
