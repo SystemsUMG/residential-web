@@ -35,30 +35,31 @@ class Penalties extends Component
         'penalty.penalty_category_id' => 'required|exists:penalty_categories,id',
     ];
 
-    public function createPenalty(): void
+    public function mount(): void
     {
-        $this->penalty = new Penalty();
-        $this->showingModal = true;
-        $this->isEditing = false;
-        $this->resetErrorBag();
-        $this->modalTitle = 'Crear multa';
-        $this->penalty->status = StatusType::Generado;
-        $this->penalty->user_id = auth()->user()->id;
         $this->houses = House::pluck('name', 'id');
         $this->users = User::where('role', UserType::Guardia)->pluck('name', 'id');
         $this->penaltyCategories = PenaltyCategory::pluck('name', 'id');
     }
 
+    public function createPenalty(): void
+    {
+        $this->penalty = new Penalty();
+        $this->modalTitle = 'Crear multa';
+        $this->resetErrorBag();
+        $this->isEditing = false;
+        $this->showingModal = true;
+        $this->penalty->status = StatusType::Generado;
+        $this->penalty->user_id = auth()->user()->id;
+    }
+
     public function edit(Penalty $penalty): void
     {
         $this->penalty = $penalty;
-        $this->showingModal = true;
-        $this->isEditing = true;
-        $this->resetErrorBag();
         $this->modalTitle = 'Editar multa';
-        $this->houses = House::pluck('name', 'id');
-        $this->users = User::where('role', UserType::Guardia)->pluck('name', 'id');
-        $this->penaltyCategories = PenaltyCategory::pluck('name', 'id');
+        $this->resetErrorBag();
+        $this->isEditing = true;
+        $this->showingModal = true;
     }
 
     public function delete(Penalty $penalty): void
@@ -72,7 +73,7 @@ class Penalties extends Component
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->toast('error', $e);
+            $this->toast('error', errorHelper($e));
         }
     }
 
@@ -80,7 +81,7 @@ class Penalties extends Component
     {
         try {
             DB::beginTransaction();
-            switch ($penalty->status){
+            switch ($penalty->status) {
                 case StatusType::Pagado->value:
                 case StatusType::Generado->value:
                     $penalty->status = StatusType::Aprobado;
@@ -98,7 +99,7 @@ class Penalties extends Component
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->toast('error', $e);
+            $this->toast('error', errorHelper($e));
         }
     }
 
@@ -110,11 +111,11 @@ class Penalties extends Component
             $this->penalty->save();
             $this->showingModal = false;
             $this->emit('refreshDatatable');
-            $this->toast('success', 'Ticket editado');
+            $this->toast('success', $this->isEditing ? 'Ticket editado' : 'Ticket creado');
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->toast('error', $e);
+            $this->toast('error', errorHelper($e));
         }
     }
 
