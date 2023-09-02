@@ -32,7 +32,7 @@
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ $colorText }}" href="{{ route('users') }}" aria-expanded="false">
-                        <span><i class="ti ti-layout-dashboard"></i></span>
+                        <span><i class="ti ti-users"></i></span>
                         <span class="hide-menu">Usuarios</span>
                     </a>
                 </li>
@@ -49,7 +49,7 @@
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ $colorText }}" href="{{ route('penalties.categories') }}" aria-expanded="false">
-                        <span><i class="ti ti-receipt-2"></i></span>
+                        <span><i class="ti ti-category-2"></i></span>
                         <span class="hide-menu">Categorías de multas</span>
                     </a>
                 </li>
@@ -60,72 +60,14 @@
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ $colorText }}" href="{{ route('tickets') }}" aria-expanded="false">
-                        <span><i class="ti ti-receipt-2"></i></span>
+                        <span><i class="ti ti-ticket"></i></span>
                         <span class="hide-menu">Tickets</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ $colorText }}" href="{{ route('tickets.categories') }}" aria-expanded="false">
-                        <span><i class="ti ti-receipt-2"></i></span>
+                        <span><i class="ti ti-ticket-off"></i></span>
                         <span class="hide-menu">Categorías de tickets</span>
-                    </a>
-                </li>
-
-                <li class="nav-small-cap text-dark-emphasis">
-                    <span class="hide-menu">UI COMPONENTS</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link {{ $colorText }}" href="{{ route('buttons') }}" aria-expanded="false">
-                        <span><i class="ti ti-article"></i></span>
-                        <span class="hide-menu">Buttons</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link {{ $colorText }}" href="{{ route('alerts') }}" aria-expanded="false">
-                        <span><i class="ti ti-alert-circle"></i></span>
-                        <span class="hide-menu">Alerts</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link {{ $colorText }}" href="{{ route('cards') }}" aria-expanded="false">
-                        <span><i class="ti ti-cards"></i></span>
-                        <span class="hide-menu">Card</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link {{ $colorText }}" href="{{ route('forms') }}" aria-expanded="false">
-                        <span><i class="ti ti-file-description"></i></span>
-                        <span class="hide-menu">Forms</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link {{ $colorText }}" href="{{ route('fonts') }}" aria-expanded="false">
-                        <span><i class="ti ti-typography"></i></span>
-                        <span class="hide-menu">Typography</span>
-                    </a>
-                </li>
-                <li class="nav-small-cap text-dark-emphasis">
-                    <span class="hide-menu">AUTH</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link {{ $colorText }}" href="{{ route('login') }}" aria-expanded="false">
-                        <span><i class="ti ti-login"></i></span>
-                        <span class="hide-menu">Login</span>
-                    </a>
-                </li>
-                <li class="nav-small-cap text-dark-emphasis">
-                    <span class="hide-menu">EXTRA</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link {{ $colorText }}" href="{{ route('icons') }}" aria-expanded="false">
-                        <span><i class="ti ti-mood-happy"></i></span>
-                        <span class="hide-menu">Icons</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link {{ $colorText }}" href="{{ route('sample') }}" aria-expanded="false">
-                        <span><i class="ti ti-aperture"></i></span>
-                        <span class="hide-menu">Sample Page</span>
                     </a>
                 </li>
             </ul>
