@@ -49,22 +49,26 @@ class UsersTable extends DataTableComponent
                 ->sortable()
                 ->label(function ($row) {
                     $role = $row->roles->first();
-                    return $role?->name;
+                    return getRoleName($role?->name);
                 }),
             Column::make("Lista de Familiares")
                 ->label(function ($row) {
                     $id = $row->id;
                     $count = count($row->family_list ?? []);
-                    return auth()->user()->can('update', $row) ? "<span class='badge text-bg-primary cursor-pointer' wire:click='seeFamily($id)'>$count</span>" : '';
+                    return ($row->hasRole([UserType::Residente->value]) ?
+                        (auth()->user()->can('update', $row) ?
+                            "<span class='badge text-bg-primary cursor-pointer' wire:click='seeFamily($id)'>$count</span>" :
+                            '')
+                        : '');
                 })->html(),
             Column::make("Creación", "created_at")
                 ->sortable(),
             Column::make("Acciones")->label(
                 function ($row) {
-                    $edit = "<button class='btn btn-success' wire:click='edit({$row->id})'>
+                    $edit = "<button class='btn btn-success' wire:click='edit($row->id)'>
                                    <i class='ti ti-pencil'></i>
                                </button>";
-                    $delete = "<button class='btn btn-danger' wire:click='delete({$row->id})'>
+                    $delete = "<button class='btn btn-danger' wire:click='delete($row->id)'>
                                    <i class='ti ti-trash-x'></i>
                                </button>";
                     return '<div class="btn-group" role="group">' .
@@ -80,12 +84,12 @@ class UsersTable extends DataTableComponent
         $this->emit('seeFamily', $user);
     }
 
-    public function edit(User $user): void
+    public function edit($user): void
     {
         $this->emit('edit', $user);
     }
 
-    public function delete(User $user): void
+    public function delete($user): void
     {
         $this->emit('showingDeleteModal', $user);
     }

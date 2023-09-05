@@ -3,6 +3,7 @@
 use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\Logout;
 use App\Http\Livewire\Auth\Register;
+use App\Http\Livewire\Houses\Houses;
 use App\Http\Livewire\Penalties\Penalties;
 use App\Http\Livewire\PenaltyCategories\PenaltyCategories;
 use App\Http\Livewire\TicketCategories\TicketCategories;
@@ -31,13 +32,16 @@ Route::middleware('auth')->group(function () {
     Route::get('', function () {
         return view('templates.dashboard');
     })->name('home');
-    Route::prefix('users')->group(function () {
-        Route::get('', Users::class)->name('users');
-    });
+
+    Route::get('users', Users::class)->name('users');
+
+    Route::get('houses', Houses::class)->name('houses');
+
     Route::prefix('tickets')->group(function () {
         Route::get('', Tickets::class)->name('tickets');
         Route::get('categories', TicketCategories::class)->name('tickets.categories');
     });
+
     Route::prefix('penalties')->group(function () {
         Route::get('', Penalties::class)->name('penalties');
         Route::get('categories', PenaltyCategories::class)->name('penalties.categories');

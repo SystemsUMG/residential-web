@@ -37,7 +37,8 @@ class Tickets extends Component
     public function mount(): void
     {
         $this->houses = auth()->user()->hasRole([UserType::Operador->value, UserType::Admin->value]) ? House::pluck('name', 'id') : auth()->user()->houses->pluck('name', 'id');
-        $this->users = User::whereRelation('roles', 'name', UserType::Residente)->pluck('name', 'id');
+        $this->users = User::whereRelation('roles', 'name', UserType::Residente)
+            ->pluck(DB::raw("CONCAT(name, ' ', surname)"), 'id');
         $this->ticketCategories = TicketCategory::pluck('name', 'id');
     }
 

@@ -49,15 +49,12 @@ class PenaltiesTable extends DataTableComponent
             ),
             Column::make("Casa", "house.name")->searchable()->sortable(),
             Column::make("Guardia", "user.id")->searchable()->sortable()->format(
-                function ($row) {
-                    $user = User::find($row);
-                    return "$user->name $user->surname";
-                }
+                fn($row) => optional(User::find($row))->name . ' ' . optional(User::find($row))->surname
             )->html(),
             Column::make("Estado")->label(
                 function ($row) {
                     if (auth()->user()->can('status', $row)) {
-                        return "<div wire:click='changeStatus({$row->id})' class='cursor-pointer'>
+                        return "<div wire:click='changeStatus($row->id)'>
                                     {$this->getStatusBadge($row->status)}</div>";
                     }
                     return "<div>{$this->getStatusBadge($row->status)}</div>";
@@ -65,10 +62,10 @@ class PenaltiesTable extends DataTableComponent
             )->html(),
             Column::make("Acciones")->label(
                 function ($row) {
-                    $edit = "<button class='btn btn-success' wire:click='edit({$row->id})'>
+                    $edit = "<button class='btn btn-success' wire:click='edit($row->id)'>
                                    <i class='ti ti-pencil'></i>
                                </button>";
-                    $delete = "<button class='btn btn-danger' wire:click='delete({$row->id})'>
+                    $delete = "<button class='btn btn-danger' wire:click='delete($row->id)'>
                                    <i class='ti ti-trash-x'></i>
                                </button>";
                     return '<div class="btn-group" role="group">' .
@@ -79,17 +76,17 @@ class PenaltiesTable extends DataTableComponent
         ];
     }
 
-    public function edit(Penalty $penalty): void
+    public function edit($penalty): void
     {
         $this->emit('edit', $penalty);
     }
 
-    public function delete(Penalty $penalty): void
+    public function delete($penalty): void
     {
         $this->emit('showingDeleteModal', $penalty);
     }
 
-    public function changeStatus(Penalty $penalty): void
+    public function changeStatus($penalty): void
     {
         $this->emit('changeStatus', $penalty);
     }

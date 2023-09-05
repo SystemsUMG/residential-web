@@ -6,7 +6,6 @@ use App\Enums\UserType;
 use App\Models\User;
 use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Ticket;
@@ -51,7 +50,7 @@ class TicketTable extends DataTableComponent
             Column::make("Estado")->label(
                 function ($row) {
                     if (auth()->user()->can('status', $row)) {
-                        return "<div wire:click='changeStatus({$row->id})' class='cursor-pointer'>
+                        return "<div wire:click='changeStatus($row->id)'>
                                     {$this->getStatusBadge($row->status)}</div>";
                     }
                     return "<div>{$this->getStatusBadge($row->status)}</div>";
@@ -74,10 +73,10 @@ class TicketTable extends DataTableComponent
                 ->searchable(),
             Column::make("Acciones")->label(
                 function ($row) {
-                    $edit = "<button class='btn btn-success' wire:click='edit({$row->id})'>
+                    $edit = "<button class='btn btn-success' wire:click='edit($row->id)'>
                                     <i class='ti ti-pencil'></i>
                                 </button>";
-                    $delete = "<button class='btn btn-danger' wire:click='delete({$row->id})'>
+                    $delete = "<button class='btn btn-danger' wire:click='delete($row->id)'>
                                     <i class='ti ti-trash-x'></i>
                                 </button>";
                     return '<div class="btn-group" role="group">' .
@@ -88,17 +87,17 @@ class TicketTable extends DataTableComponent
         ];
     }
 
-    public function edit(Ticket $ticket): void
+    public function edit($ticket): void
     {
         $this->emit('edit', $ticket);
     }
 
-    public function delete(Ticket $ticket): void
+    public function delete($ticket): void
     {
         $this->emit('showingDeleteModal', $ticket);
     }
 
-    public function changeStatus(Ticket $ticket): void
+    public function changeStatus($ticket): void
     {
         $this->emit('changeStatus', $ticket);
     }

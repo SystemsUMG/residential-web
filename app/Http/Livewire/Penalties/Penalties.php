@@ -39,7 +39,8 @@ class Penalties extends Component
     public function mount(): void
     {
         $this->houses = House::pluck('name', 'id');
-        $this->users = User::whereRelation('roles', 'name', UserType::Guardia)->pluck('name', 'id');
+        $this->users = User::whereRelation('roles', 'name', UserType::Guardia)
+            ->pluck(DB::raw("CONCAT(name, ' ', surname)"), 'id');
         $this->penaltyCategories = PenaltyCategory::pluck('name', 'id');
     }
 

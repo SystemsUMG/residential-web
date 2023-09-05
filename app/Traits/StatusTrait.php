@@ -21,13 +21,13 @@ trait StatusTrait
     public function getStatusBadge($status): string
     {
         $statuses = [
-            'generated' => '<span class="badge rounded-pill text-bg-secondary">Generado</span>',
-            'assigned' => '<span class="badge rounded-pill text-bg-primary">Asignado</span>',
-            'in_progress' => '<span class="badge rounded-pill text-bg-warning">En progreso</span>',
-            'finalized' => '<span class="badge rounded-pill text-bg-success">Finalizado</span>',
-            'approved' => '<span class="badge rounded-pill text-bg-success">Aprobado</span>',
-            'rejected' => '<span class="badge rounded-pill text-bg-danger">Rechazado</span>',
-            'paid' => '<span class="badge rounded-pill text-bg-muted">Pagado</span>',
+            'generated' => '<button class="btn btn-secondary py-0 px-1 rounded-pill text-light">Generado</button>',
+            'assigned' => '<button class="btn btn-primary py-0 px-1 rounded-pill text-light">Asignado</button>',
+            'in_progress' => '<button class="btn btn-warning py-0 px-1 rounded-pill text-light fs-2">En progreso</button>',
+            'finalized' => '<button class="btn btn-success py-0 px-1 rounded-pill text-light">Finalizado</button>',
+            'approved' => '<button class="btn btn-success py-0 px-1 rounded-pill text-light">Aprobado</button>',
+            'rejected' => '<button class="btn btn-danger py-0 px-1 rounded-pill text-light">Rechazado</button>',
+            'paid' => '<button class="btn btn-muted py-0 px-1 rounded-pill text-light">Pagado</button>',
         ];
         return array_key_exists($status, $statuses) ? $statuses[$status] : 'Estado Desconocido';
     }

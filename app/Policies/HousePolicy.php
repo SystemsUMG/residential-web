@@ -37,7 +37,7 @@ class HousePolicy
      */
     public function update(User $user, House $house): bool
     {
-        return $user->hasPermissionTo('update houses');
+        return $user->hasPermissionTo('edit houses');
     }
 
     /**

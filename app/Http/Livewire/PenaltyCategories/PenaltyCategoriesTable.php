@@ -26,10 +26,10 @@ class PenaltyCategoriesTable extends DataTableComponent
                 ->sortable(),
             Column::make("Acciones")->label(
                 function ($row) {
-                    $edit = "<button class='btn btn-success' wire:click='edit({$row->id})'>
+                    $edit = "<button class='btn btn-success' wire:click='edit($row->id)'>
                                    <i class='ti ti-pencil'></i>
                                </button>";
-                    $delete = "<button class='btn btn-danger' wire:click='delete({$row->id})'>
+                    $delete = "<button class='btn btn-danger' wire:click='delete($row->id)'>
                                    <i class='ti ti-trash-x'></i>
                                </button>";
                     return '<div class="btn-group" role="group">' .
@@ -39,12 +39,12 @@ class PenaltyCategoriesTable extends DataTableComponent
             )->html(),
         ];
     }
-    public function edit(PenaltyCategory $penaltyCategory): void
+    public function edit($penaltyCategory): void
     {
         $this->emit('edit', $penaltyCategory);
     }
 
-    public function delete(PenaltyCategory $penaltyCategory): void
+    public function delete($penaltyCategory): void
     {
         $this->emit('showingDeleteModal', $penaltyCategory);
     }

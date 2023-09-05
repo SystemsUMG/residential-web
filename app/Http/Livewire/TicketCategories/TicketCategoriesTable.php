@@ -26,10 +26,10 @@ class TicketCategoriesTable extends DataTableComponent
                 ->sortable(),
             Column::make("Acciones")->label(
                 function ($row) {
-                    $edit = "<button class='btn btn-success' wire:click='edit({$row->id})'>
+                    $edit = "<button class='btn btn-success' wire:click='edit($row->id)'>
                                    <i class='ti ti-pencil'></i>
                                </button>";
-                    $delete = "<button class='btn btn-danger' wire:click='delete({$row->id})'>
+                    $delete = "<button class='btn btn-danger' wire:click='delete($row->id)'>
                                    <i class='ti ti-trash-x'></i>
                                </button>";
                     return '<div class="btn-group" role="group">' .
@@ -40,12 +40,12 @@ class TicketCategoriesTable extends DataTableComponent
         ];
     }
 
-    public function edit(TicketCategory $ticketCategory): void
+    public function edit($ticketCategory): void
     {
         $this->emit('edit', $ticketCategory);
     }
 
-    public function delete(TicketCategory $ticketCategory): void
+    public function delete($ticketCategory): void
     {
         $this->emit('showingDeleteModal', $ticketCategory);
     }
