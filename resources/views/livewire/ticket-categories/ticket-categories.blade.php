@@ -5,10 +5,12 @@
                 <h3 class="fw-semibold mb-4 text-dark-emphasis">Categorías de tickets</h3>
             </div>
             <div class="col">
-                <button class="btn btn-primary d-flex align-items-center" wire:click="createPenalty">
-                    <i class="ti ti-circle-plus fs-6 me-2"></i>
-                    Nueva categoría
-                </button>
+                @can('create', \App\Models\TicketCategory::class)
+                    <button class="btn btn-primary d-flex align-items-center" wire:click="createPenalty">
+                        <i class="ti ti-circle-plus fs-6 me-2"></i>
+                        Nueva categoría
+                    </button>
+                @endcan
             </div>
         </div>
         <livewire:ticket-categories.ticket-categories-table/>

@@ -13,12 +13,13 @@ use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Tickets extends Component
 {
-    use ToastTrait;
+    use ToastTrait, AuthorizesRequests;
 
     protected $listeners = ['edit', 'delete', 'changeStatus'];
     public $showingModal = false, $isEditing = false, $modalTitle = '';
@@ -35,8 +36,8 @@ class Tickets extends Component
 
     public function mount(): void
     {
-        $this->houses = House::pluck('name', 'id');
-        $this->users = User::where('role', UserType::Residente)->pluck('name', 'id');
+        $this->houses = auth()->user()->hasRole([UserType::Operador->value, UserType::Admin->value]) ? House::pluck('name', 'id') : auth()->user()->houses->pluck('name', 'id');
+        $this->users = User::whereRelation('roles', 'name', UserType::Residente)->pluck('name', 'id');
         $this->ticketCategories = TicketCategory::pluck('name', 'id');
     }
 
@@ -46,9 +47,9 @@ class Tickets extends Component
         $this->modalTitle = 'Crear ticket';
         $this->resetErrorBag();
         $this->isEditing = false;
-        $this->showingModal = true;
         $this->ticket->status = StatusType::Generado;
         $this->ticket->user_id = auth()->user()->id;
+        $this->showingModal = true;
     }
 
     public function edit(Ticket $ticket): void
@@ -122,6 +123,7 @@ class Tickets extends Component
 
     public function render(): View|\Illuminate\Foundation\Application|Factory|Application
     {
+        $this->authorize('viewAny', Ticket::class);
         return view('livewire.tickets.tickets');
     }
 }

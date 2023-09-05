@@ -5,10 +5,12 @@
                 <h3 class="fw-semibold mb-4 text-dark-emphasis">Usuarios</h3>
             </div>
             <div class="col">
-                <button class="btn btn-primary d-flex align-items-center" wire:click="createPenalty">
-                    <i class="ti ti-circle-plus fs-6 me-2"></i>
-                    Nuevo Usuario
-                </button>
+                @can('create', \App\Models\User::class)
+                    <button class="btn btn-primary d-flex align-items-center" wire:click="createUser">
+                        <i class="ti ti-circle-plus fs-6 me-2"></i>
+                        Nuevo Usuario
+                    </button>
+                @endcan
             </div>
         </div>
         <livewire:users.users-table/>
@@ -57,13 +59,12 @@
                             />
                             <x-inputs.select
                                 label="Rol"
-                                name="user.role"
-                                wire:model="user.role">
+                                name="role"
+                                wire:model="role">
                                 <option value="">Seleccionar rol</option>
-                                <option value="{{ \App\Enums\UserType::Admin }}">Administrador</option>
-                                <option value="{{ \App\Enums\UserType::Residente }}">Residente</option>
-                                <option value="{{ \App\Enums\UserType::Operador }}">Operador</option>
-                                <option value="{{ \App\Enums\UserType::Guardia }}">Guardia</option>
+                                @foreach(\Spatie\Permission\Models\Role::get() as $role)
+                                    <option value="{{ $role->id }}">{{ getRoleName($role->name) }}</option>
+                                @endforeach
                             </x-inputs.select>
                         </div>
                         <div class="d-flex justify-content-between">

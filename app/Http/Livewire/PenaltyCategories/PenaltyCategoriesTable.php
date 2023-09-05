@@ -32,7 +32,9 @@ class PenaltyCategoriesTable extends DataTableComponent
                     $delete = "<button class='btn btn-danger' wire:click='delete({$row->id})'>
                                    <i class='ti ti-trash-x'></i>
                                </button>";
-                    return '<div class="btn-group" role="group">' . $edit . $delete . '</div>';
+                    return '<div class="btn-group" role="group">' .
+                        (auth()->user()->can('update', $row) ? $edit : '') .
+                        (auth()->user()->can('delete', $row) ? $delete : '') . '</div>';
                 }
             )->html(),
         ];

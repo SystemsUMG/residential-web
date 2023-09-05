@@ -5,10 +5,12 @@
                 <h3 class="fw-semibold mb-4 text-dark-emphasis">Multas</h3>
             </div>
             <div class="col">
-                <button class="btn btn-primary d-flex align-items-center" wire:click="createPenalty">
-                    <i class="ti ti-circle-plus fs-6 me-2"></i>
-                    Nuevo Multa
-                </button>
+                @can('create', \App\Models\Penalty::class)
+                    <button class="btn btn-primary d-flex align-items-center" wire:click="createPenalty">
+                        <i class="ti ti-circle-plus fs-6 me-2"></i>
+                        Nuevo Multa
+                    </button>
+                @endcan
             </div>
         </div>
         <livewire:penalties.penalties-table/>

@@ -5,10 +5,12 @@
                 <h3 class="fw-semibold mb-4 text-dark-emphasis">Tickets</h3>
             </div>
             <div class="col">
-                <button class="btn btn-primary d-flex align-items-center" wire:click="createTicket">
-                    <i class="ti ti-circle-plus fs-6 me-2"></i>
-                    Nuevo Ticket
-                </button>
+                @can('create', \App\Models\Ticket::class)
+                    <button class="btn btn-primary d-flex align-items-center" wire:click="createTicket">
+                        <i class="ti ti-circle-plus fs-6 me-2"></i>
+                        Nuevo Ticket
+                    </button>
+                @endcan
             </div>
         </div>
         <livewire:tickets.ticket-table/>

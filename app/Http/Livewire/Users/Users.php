@@ -7,20 +7,22 @@ use App\Traits\ToastTrait;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Spatie\Permission\Models\Role;
 
 class Users extends Component
 {
-    use ToastTrait;
+    use ToastTrait, AuthorizesRequests;
 
     protected $listeners = ['edit', 'delete', 'seeFamily'];
 
     public User $user;
     public Collection $family;
-    public $showingModal = false, $isEditing = false, $modalTitle = '', $password, $formUser = false;
+    public $showingModal = false, $isEditing = false, $modalTitle = '', $password, $formUser = false, $role;
 
     protected function rules(): array
     {
@@ -32,11 +34,11 @@ class Users extends Component
             ],
             'user.phone' => ['nullable', 'string'],
             'password' => [Rule::requiredIf(!$this->isEditing)],
-            'user.role' => ['required'],
+            'role' => ['required'],
         ];
     }
 
-    public function createPenalty(): void
+    public function createUser(): void
     {
         $this->user = new User();
         $this->user->password = '';
@@ -50,6 +52,7 @@ class Users extends Component
     public function edit(User $user): void
     {
         $this->user = $user;
+        $this->role = $user->roles->first()?->id;
         $this->modalTitle = 'Editar usuario';
         $this->resetErrorBag();
         $this->isEditing = true;
@@ -82,6 +85,7 @@ class Users extends Component
             } else {
                 $this->user->password = bcrypt($this->password);
             }
+            $this->user->syncRoles([$this->role]);
             $this->user->save();
             $this->showingModal = false;
             $this->emit('refreshDatatable');
@@ -160,6 +164,7 @@ class Users extends Component
 
     public function render(): View|\Illuminate\Foundation\Application|Factory|Application
     {
+        $this->authorize('viewAny', User::class);
         return view('livewire.users.users');
     }
 }

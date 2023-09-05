@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Penalties;
 
+use App\Enums\UserType;
 use App\Models\Penalty;
 use App\Models\User;
 use App\Traits\StatusTrait;
@@ -23,8 +24,15 @@ class PenaltiesTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return Penalty::query()
+        $user = auth()->user();
+        $query = Penalty::query()
             ->select('penalties.*');
+
+        if (!$user->hasRole([UserType::Admin->value])) {
+            $query->where('penalties.user_id', $user->id);
+        }
+
+        return $query;
     }
 
     public function columns(): array
@@ -48,8 +56,11 @@ class PenaltiesTable extends DataTableComponent
             )->html(),
             Column::make("Estado")->label(
                 function ($row) {
-                    return "<div wire:click='changeStatus({$row->id})' class='cursor-pointer'>
+                    if (auth()->user()->can('status', $row)) {
+                        return "<div wire:click='changeStatus({$row->id})' class='cursor-pointer'>
                                     {$this->getStatusBadge($row->status)}</div>";
+                    }
+                    return "<div>{$this->getStatusBadge($row->status)}</div>";
                 }
             )->html(),
             Column::make("Acciones")->label(
@@ -60,7 +71,9 @@ class PenaltiesTable extends DataTableComponent
                     $delete = "<button class='btn btn-danger' wire:click='delete({$row->id})'>
                                    <i class='ti ti-trash-x'></i>
                                </button>";
-                    return '<div class="btn-group" role="group">' . $edit . $delete . '</div>';
+                    return '<div class="btn-group" role="group">' .
+                        (auth()->user()->can('update', $row) ? $edit : '') .
+                        (auth()->user()->can('delete', $row) ? $delete : '') . '</div>';
                 }
             )->html(),
         ];
