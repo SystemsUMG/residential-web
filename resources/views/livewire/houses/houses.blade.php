@@ -2,18 +2,18 @@
     <div class="card-body">
         <div class="row">
             <div class="col-10">
-                <h3 class="fw-semibold mb-4 text-dark-emphasis">Categorías de tickets</h3>
+                <h3 class="fw-semibold mb-4 text-dark-emphasis">Casas</h3>
             </div>
             <div class="col">
-                @can('create', \App\Models\TicketCategory::class)
-                    <button class="btn btn-primary d-flex align-items-center" wire:click="createPenalty">
+                @can('create', \App\Models\House::class)
+                    <button class="btn btn-primary d-flex align-items-center" wire:click="createHouse">
                         <i class="ti ti-circle-plus fs-6 me-2"></i>
-                        Nueva categoría
+                        Nueva casa
                     </button>
                 @endcan
             </div>
         </div>
-        <livewire:ticket-categories.ticket-categories-table/>
+        <livewire:houses.houses-table/>
     </div>
 
     <x-modal wire:model="showingModal">
@@ -33,14 +33,32 @@
                     <div class="row">
                         <x-inputs.text
                             label="Nombre"
-                            name="ticketCategory.name"
-                            wire:model="ticketCategory.name"
+                            name="house.name"
+                            wire:model="house.name"
                         />
+                        <x-inputs.text
+                            label="Código"
+                            name="house.code"
+                            wire:model="house.code"
+                        />
+                        <x-inputs.select
+                            label="Propietario"
+                            name="house.user_id"
+                            wire:model="house.user_id"
+                        >
+                            <option value="">Seleccione un propietario</option>
+                            @forelse($users as $id => $user)
+                                <option value="{{ $id }}">{{ $user }}</option>
+                            @empty
+                                <option value="">Sin usuarios</option>
+                            @endforelse
+                        </x-inputs.select>
                     </div>
                     <div class="d-flex justify-content-between">
                         <button
                             type="submit"
                             class="btn btn-primary"
+                            wire:click="save"
                         >
                             Guardar
                         </button>

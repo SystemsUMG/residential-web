@@ -44,29 +44,36 @@ class UsersTable extends DataTableComponent
                 ->sortable(),
             BooleanColumn::make("Activo", "active")
                 ->sortable(),
-            Column::make("Rol", "role")
+            Column::make("Rol")
                 ->searchable()
                 ->sortable()
-                ->format(function ($value) {
-                    return getRoleName($value);
+                ->label(function ($row) {
+                    $role = $row->roles->first();
+                    return getRoleName($role?->name);
                 }),
             Column::make("Lista de Familiares")
                 ->label(function ($row) {
-                   $id = $row->id;
-                   $count = count($row->family_list ?? []);
-                    return "<span class='badge text-bg-primary cursor-pointer' wire:click='seeFamily($id)'>$count</span>";
+                    $id = $row->id;
+                    $count = count($row->family_list ?? []);
+                    return ($row->hasRole([UserType::Residente->value]) ?
+                        (auth()->user()->can('update', $row) ?
+                            "<span class='badge text-bg-primary cursor-pointer' wire:click='seeFamily($id)'>$count</span>" :
+                            '')
+                        : '');
                 })->html(),
             Column::make("Creación", "created_at")
                 ->sortable(),
             Column::make("Acciones")->label(
                 function ($row) {
-                    $edit = "<button class='btn btn-success' wire:click='edit({$row->id})'>
+                    $edit = "<button class='btn btn-success' wire:click='edit($row->id)'>
                                    <i class='ti ti-pencil'></i>
                                </button>";
-                    $delete = "<button class='btn btn-danger' wire:click='delete({$row->id})'>
+                    $delete = "<button class='btn btn-danger' wire:click='delete($row->id)'>
                                    <i class='ti ti-trash-x'></i>
                                </button>";
-                    return '<div class="btn-group" role="group">' . $edit . $delete . '</div>';
+                    return '<div class="btn-group" role="group">' .
+                        (auth()->user()->can('update', $row) ? $edit : '') .
+                        (auth()->user()->can('delete', $row) ? $delete : '') . '</div>';
                 }
             )->html(),
         ];
@@ -77,12 +84,12 @@ class UsersTable extends DataTableComponent
         $this->emit('seeFamily', $user);
     }
 
-    public function edit(User $user): void
+    public function edit($user): void
     {
         $this->emit('edit', $user);
     }
 
-    public function delete(User $user): void
+    public function delete($user): void
     {
         $this->emit('showingDeleteModal', $user);
     }

@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@admin.com',
-            'role' => UserType::Admin,
         ]);
         User::factory(10)->create();
 
@@ -67,5 +66,7 @@ class DatabaseSeeder extends Seeder
 
         Penalty::factory(20)->create();
         Ticket::factory(20)->create();
+
+        $this->call(PermissionsSeeder::class);
     }
 }

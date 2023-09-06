@@ -12,12 +12,13 @@ use App\Traits\ToastTrait;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Penalties extends Component
 {
-    use ToastTrait;
+    use ToastTrait, AuthorizesRequests;
 
     protected $listeners = ['edit', 'delete', 'changeStatus'];
 
@@ -38,7 +39,8 @@ class Penalties extends Component
     public function mount(): void
     {
         $this->houses = House::pluck('name', 'id');
-        $this->users = User::where('role', UserType::Guardia)->pluck('name', 'id');
+        $this->users = User::whereRelation('roles', 'name', UserType::Guardia)
+            ->pluck(DB::raw("CONCAT(name, ' ', surname)"), 'id');
         $this->penaltyCategories = PenaltyCategory::pluck('name', 'id');
     }
 
@@ -121,6 +123,7 @@ class Penalties extends Component
 
     public function render(): View|\Illuminate\Foundation\Application|Factory|Application
     {
+        $this->authorize('viewAny', Penalty::class);
         return view('livewire.penalties.penalties');
     }
 }

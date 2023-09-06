@@ -6,9 +6,14 @@ use Illuminate\Contracts\Translation\Translator;
 
 function errorHelper($exception): \Illuminate\Foundation\Application|array|string|Translator|Application|null
 {
-    $code = $exception->errorInfo[0];
-    $message = $exception->errorInfo[2];
-   return "Código: $code: $message";
+    if (property_exists($exception, 'errorInfo')) {
+        $code = $exception->errorInfo[0];
+        $message = $exception->errorInfo[2];
+    } else {
+        $code = $exception->getCode();
+        $message = $exception->getMessage();
+    }
+    return "Código: $code: $message";
 }
 
 function getRoleName($role): string

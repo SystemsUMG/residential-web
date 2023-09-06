@@ -7,12 +7,13 @@ use App\Traits\ToastTrait;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class TicketCategories extends Component
 {
-    use ToastTrait;
+    use ToastTrait, AuthorizesRequests;
 
     protected $listeners = ['edit', 'delete'];
 
@@ -74,6 +75,7 @@ class TicketCategories extends Component
 
     public function render(): View|\Illuminate\Foundation\Application|Factory|Application
     {
+        $this->authorize('viewAny', TicketCategory::class);
         return view('livewire.ticket-categories.ticket-categories');
     }
 }
