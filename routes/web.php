@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function () {
         return view('templates.dashboard');
     })->name('home');
 
+    Route::get('profile', \App\Http\Livewire\Profile\Profile::class)->name('profile');
+
     Route::get('users', Users::class)->name('users');
 
     Route::get('houses', Houses::class)->name('houses');
