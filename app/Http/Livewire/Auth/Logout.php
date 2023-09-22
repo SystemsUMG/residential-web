@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Auth;
 
-use App\Traits\Toast;
+use App\Traits\ToastTrait;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class Logout extends Component
 {
-    use Toast;
+    use ToastTrait;
 
     public function logout()
     {

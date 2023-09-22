@@ -24,8 +24,10 @@
     <button class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" wire:click="login" type="submit">
         Iniciar Sesión
     </button>
-    <div class="d-flex align-items-center justify-content-center">
-        <p class="fs-4 mb-0 fw-bold text-dark-emphasis">¿Eres nuevo?</p>
-        <a class="text-primary fw-bold ms-2" href="{{ route('register') }}">Crea una cuenta</a>
-    </div>
+    @if (Route::has('register'))
+        <div class="d-flex align-items-center justify-content-center">
+            <p class="fs-4 mb-0 fw-bold text-dark-emphasis">¿Eres nuevo?</p>
+            <a class="text-primary fw-bold ms-2" href="{{ route('register') }}">Crea una cuenta</a>
+        </div>
+    @endif
 </form>

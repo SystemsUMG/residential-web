@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Auth;
 
 use App\Models\User;
-use App\Traits\Toast;
+use App\Traits\ToastTrait;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -12,7 +12,7 @@ use Livewire\Component;
 
 class Login extends Component
 {
-    use Toast;
+    use ToastTrait;
 
     public $email, $password, $remember_token = false;
     protected $rules = [
@@ -28,7 +28,7 @@ class Login extends Component
             $user = User::where('email', $this->email)->first();
             if ($user->active) {
                 if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember_token)) {
-                    $this->redirectRoute('home');
+                    $this->redirectRoute('dashboard');
                 } else {
                     $this->toast('error', 'Credenciales incorrectas.');
                 }

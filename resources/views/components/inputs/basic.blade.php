@@ -21,6 +21,7 @@
         {{ $max ? "max={$max}" : '' }}
         {{ $step ? "step={$step}" : '' }}
         placeholder=""
+        autocomplete="off"
     >
     @if($label ?? null)
         @include('components.inputs.partials.label')

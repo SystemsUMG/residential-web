@@ -19,6 +19,7 @@
         {{ $checked ? 'checked' : '' }}
         {{ $attributes->merge(['class' => 'form-check-input']) }}
         value="{{ $value }}"
+        autocomplete="off"
     >
 
     @if($label ?? null)

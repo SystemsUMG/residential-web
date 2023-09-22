@@ -11,6 +11,7 @@
         {{ ($required ?? false) ? 'required' : '' }}
         {{ $attributes->merge(['class' => 'form-control text-dark-emphasis']) }}
         placeholder=""
+        autocomplete="off"
     >{{$slot}}</textarea>
     @if($label ?? null)
         @include('components.inputs.partials.label')

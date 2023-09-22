@@ -21,25 +21,44 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@admin.com',
-            'role' => UserType::Admin,
         ]);
         User::factory(10)->create();
 
-        PenaltyCategory::factory(10)->create();
-
-        $categories = [
-            'Falta de agua',
-            'Cortes de luz',
-            'Escándalos de vecinos',
-            'Robos',
-            'Vandalismo',
-            'Basura en las calles',
-            'Vehículos mal estacionados'
+        $penaltyCategories = [
+            'Estacionamiento indebido',
+            'Ruido excesivo',
+            'Mascota sin correa',
+            'Basura no recogida',
+            'Daños a la propiedad',
+            'Uso indebido de áreas comunes',
+            'Incumplimiento de normativas',
+            'Alteración del orden',
+            'Falta de mantenimiento',
+            'Mal uso de instalaciones',
         ];
 
-        foreach ($categories as $category) {
+        foreach ($penaltyCategories as $penaltyCategory) {
+            PenaltyCategory::factory(1)->create([
+                'name' => $penaltyCategory
+            ]);
+        }
+
+        $ticketCategories = [
+            'Problemas de fontanería',
+            'Problemas eléctricos',
+            'Solicitudes de mantenimiento',
+            'Peticiones de mejora',
+            'Consultas sobre reglas',
+            'Reporte de áreas comunes',
+            'Sugerencias para la comunidad',
+            'Seguridad y vigilancia',
+            'Inconvenientes con vecinos',
+            'Otros'
+        ];
+
+        foreach ($ticketCategories as $ticketCategory) {
             TicketCategory::factory(1)->create([
-                'name' => $category
+                'name' => $ticketCategory
             ]);
         }
 
@@ -47,5 +66,7 @@ class DatabaseSeeder extends Seeder
 
         Penalty::factory(20)->create();
         Ticket::factory(20)->create();
+
+        $this->call(PermissionsSeeder::class);
     }
 }

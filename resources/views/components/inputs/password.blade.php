@@ -6,6 +6,9 @@
     'max' => null,
     'step' => null,
 ])
+@php
+    $name = str_replace('.', '_', $name);
+@endphp
 
 <div class="input-group mb-3">
     <div class="form-floating">
@@ -26,7 +29,7 @@
         @endif
     </div>
     <div class="input-group-text">
-        <i class="ti ti-eye-off fs-6" id="togglePassword"></i>
+        <i class="ti ti-eye-off fs-6" id="togglePassword-{{ $name }}"></i>
     </div>
 </div>
 @error($name)
@@ -34,15 +37,15 @@
 @enderror
 @push('scripts')
     <script>
-        const togglePassword = document.querySelector("#togglePassword");
-        const password = document.querySelector("#{{ $name }}");
-        togglePassword.addEventListener("click", function () {
-            if (password.getAttribute("type") === "password") {
-                password.setAttribute("type", "text");
+        const togglePassword{{ $name }} = document.querySelector("#togglePassword-{{ $name }}");
+        const password{{ $name }} = document.querySelector("#{{ $name }}");
+        togglePassword{{ $name }}.addEventListener("click", function () {
+            if (password{{ $name }}.getAttribute("type") === "password") {
+                password{{ $name }}.setAttribute("type", "text");
                 this.classList.remove("ti-eye-off");
                 this.classList.toggle("ti-eye");
             } else {
-                password.setAttribute("type", "password");
+                password{{ $name }}.setAttribute("type", "password");
                 this.classList.remove("ti-eye");
                 this.classList.toggle("ti-eye-off");
             }
