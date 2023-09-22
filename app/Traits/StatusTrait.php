@@ -31,4 +31,18 @@ trait StatusTrait
         ];
         return array_key_exists($status, $statuses) ? $statuses[$status] : 'Estado Desconocido';
     }
+
+    public function getStatusColor($status): string
+    {
+        $statuses = [
+            'generated' => 'secondary',
+            'assigned' => 'primary',
+            'in_progress' => 'warning',
+            'finalized' => 'success',
+            'approved' => 'success',
+            'rejected' => 'danger',
+            'paid' => 'dark',
+        ];
+        return array_key_exists($status, $statuses) ? $statuses[$status] : '';
+    }
 }

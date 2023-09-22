@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('code');
             $table->boolean('active')->default(true);
-            $table->foreignId('user_id')->constrained('users')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });
     }

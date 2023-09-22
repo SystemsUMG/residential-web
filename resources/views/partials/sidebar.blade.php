@@ -8,7 +8,7 @@
         <!-- Sidebar scroll-->
         <div>
             <div class="brand-logo d-flex align-items-center justify-content-between">
-                <a href="{{ route('home') }}">
+                <a href="{{ route('dashboard') }}">
                     <img src="{{ asset('images/logos/dark-logo.png') }}" width="180" alt=""/>
                 </a>
                 <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -22,7 +22,7 @@
                         <span class="hide-menu">Home</span>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link {{ $colorText }}" href="{{ route('home') }}" aria-expanded="false">
+                        <a class="sidebar-link {{ $colorText }}" href="{{ route('dashboard') }}" aria-expanded="false">
                             <span><i class="ti ti-layout-dashboard"></i></span>
                             <span class="hide-menu">Dashboard</span>
                         </a>
