@@ -27,7 +27,7 @@ class Houses extends Component
         'house.name' => 'required|string|min:3|max:255',
         'house.code' => 'required|string|min:3|max:255',
         'house.active' => 'required_if:isEditing,true',
-        'house.user_id' => 'required_if:isEditing,true|exists:users,id',
+        'house.user_id' => 'nullable',
     ];
 
     public function mount(): void
@@ -95,6 +95,7 @@ class Houses extends Component
         $this->validate();
         try {
             DB::beginTransaction();
+            $this->house->user_id = $this->house->user_id == '' ? null : $this->house->user_id;
             $this->house->save();
             $this->showingModal = false;
             $this->emit('refreshDatatable');

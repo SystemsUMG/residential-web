@@ -28,7 +28,7 @@ class Login extends Component
             $user = User::where('email', $this->email)->first();
             if ($user->active) {
                 if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember_token)) {
-                    $this->redirectRoute('home');
+                    $this->redirectRoute('dashboard');
                 } else {
                     $this->toast('error', 'Credenciales incorrectas.');
                 }

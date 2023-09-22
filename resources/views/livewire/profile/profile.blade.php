@@ -1,25 +1,25 @@
 <div class="container row gap-3 justify-content-center">
-    <div class="card col-sm-3">
-        <p class="fs-6 fw-bold text-primary">Información</p>
+    <div class="card pt-3 col-sm-3">
+        <p class="h4 fw-bold text-dark-emphasis">Información</p>
         <div class="card-body">
             <form wire:submit.prevent="saveProfile">
                 <x-inputs.text
-                    name="name"
+                    name="user.name"
                     label="Nombre"
                     wire:model="user.name"
                 />
                 <x-inputs.text
-                    name="name"
+                    name="user.surname"
                     label="Apellido"
                     wire:model="user.surname"
                 />
                 <x-inputs.email
-                    name="name"
+                    name="user.email"
                     label="Correo electrónico"
                     wire:model="user.email"
                 />
                 <x-inputs.text
-                    name="name"
+                    name="user.phone"
                     label="Teléfono"
                     wire:model="user.phone"
                 />
@@ -30,7 +30,7 @@
         </div>
     </div>
     <div class="card col-sm-4">
-        <p class="fs-6 fw-bold text-primary">Cambio de contraseña</p>
+        <p class="h4 pt-3 fw-bold text-dark-emphasis">Cambio de contraseña</p>
         <div class="card-body">
             <form wire:submit.prevent="savePassword">
                 <x-inputs.password
