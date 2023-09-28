@@ -11,18 +11,22 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Profile extends Component
 {
-    use ToastTrait;
+    use ToastTrait, WithFileUploads;
 
     public Collection $user;
+    public $image, $urlImage;
     public $currentPassword, $newPassword, $newPassword_confirmation;
 
     public function mount(): void
     {
         $user = auth()->user();
+        $this->urlImage = $user->image ? Storage::disk('public')->url($user->image->url) : null;
         $this->fill([
             'user' => collect([
                 'id' => $user->id,
@@ -41,10 +45,22 @@ class Profile extends Component
             'user.surname' => 'required|string|max:255',
             'user.email' => 'required|email|max:255|unique:users,email,' . auth()->id(),
             'user.phone' => 'required|string|max:255',
+            'image' => 'nullable|image|max:1024',
         ]);
         try {
             DB::beginTransaction();
-            User::whereId($this->user['id'])->update($this->user->toArray());
+            $user = User::find($this->user['id']);
+            $user->update($this->user->toArray());
+            if ($this->image) {
+                if ($user->image) {
+                    $this->image->storeAs('images', basename($user->image->url), 'public');
+                } else {
+                    $user->image()->create([
+                        'url' => $this->image->store('images'),
+                    ]);
+                }
+                $this->image->delete();
+            }
             DB::commit();
             $this->toast('success', 'Usuario editado');
         } catch (\Exception $e) {
