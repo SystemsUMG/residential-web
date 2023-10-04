@@ -1,5 +1,5 @@
 <div class="container row gap-3 justify-content-center">
-    <div class="card pt-3 col-sm-3">
+    <div class="card pt-3 col-12 col-sm-4">
         <p class="h4 fw-bold text-dark-emphasis">Información</p>
         <div class="card-body">
             <form wire:submit.prevent="saveProfile">
@@ -23,13 +23,18 @@
                     label="Teléfono"
                     wire:model="user.phone"
                 />
+                <x-inputs.image
+                    name="image"
+                    :model="$image"
+                    :files="$urlImage"
+                />
                 <div class="text-end">
                     <button type="submit" class="btn btn-primary">Guardar</button>
                 </div>
             </form>
         </div>
     </div>
-    <div class="card col-sm-4">
+    <div class="card col-12 col-sm-4">
         <p class="h4 pt-3 fw-bold text-dark-emphasis">Cambio de contraseña</p>
         <div class="card-body">
             <form wire:submit.prevent="savePassword">
