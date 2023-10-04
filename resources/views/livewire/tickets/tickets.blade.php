@@ -84,6 +84,12 @@
                                 <option value="">Sin Categorías</option>
                             @endforelse
                         </x-inputs.select>
+                        <x-inputs.image
+                            name="images"
+                            :model="$images"
+                            :files="$files"
+                            multiple
+                        />
                     </div>
                     <div class="d-flex justify-content-between">
                         <button
