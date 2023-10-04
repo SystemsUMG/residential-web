@@ -23,15 +23,10 @@
                     label="Teléfono"
                     wire:model="user.phone"
                 />
-                <x-inputs.filepond
-                    wire:model="image"
-                    files="{{ json_encode($urlImage) }}"
-                    allowImagePreview
-                    imagePreviewMaxHeight="200"
-                    allowFileTypeValidation
-                    acceptedFileTypes="['image/png', 'image/jpg', 'image/jpeg']"
-                    allowFileSizeValidation
-                    maxFileSize="4mb"
+                <x-inputs.image
+                    name="image"
+                    :model="$image"
+                    :files="$urlImage"
                 />
                 <div class="text-end">
                     <button type="submit" class="btn btn-primary">Guardar</button>

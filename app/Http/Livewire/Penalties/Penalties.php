@@ -14,17 +14,19 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Penalties extends Component
 {
-    use ToastTrait, AuthorizesRequests;
+    use ToastTrait, AuthorizesRequests, WithFileUploads;
 
-    protected $listeners = ['edit', 'delete', 'changeStatus'];
+    protected $listeners = ['edit', 'delete', 'changeStatus', 'removeFile'];
 
     public Penalty $penalty;
     public $showingModal = false, $isEditing = false, $modalTitle = '';
-    public $houses = [], $users = [], $penaltyCategories = [];
+    public $houses = [], $users = [], $penaltyCategories = [], $images = [], $files = [];
 
 
     protected $rules = [
@@ -34,6 +36,7 @@ class Penalties extends Component
         'penalty.house_id' => 'required|exists:houses,id',
         'penalty.user_id' => 'required_if:isEditing,true|exists:users,id',
         'penalty.penalty_category_id' => 'required|exists:penalty_categories,id',
+        'images.*' => 'mimes:png,jpg,jpeg',
     ];
 
     public function mount(): void
@@ -49,6 +52,8 @@ class Penalties extends Component
         $this->penalty = new Penalty();
         $this->modalTitle = 'Crear multa';
         $this->resetErrorBag();
+        $this->images = [];
+        $this->files = [];
         $this->isEditing = false;
         $this->showingModal = true;
         $this->penalty->status = StatusType::Generado;
@@ -60,6 +65,8 @@ class Penalties extends Component
         $this->penalty = $penalty;
         $this->modalTitle = 'Editar multa';
         $this->resetErrorBag();
+        $this->images = [];
+        $this->files = $this->penalty->images?->pluck('url')->toArray();
         $this->isEditing = true;
         $this->showingModal = true;
     }
@@ -105,16 +112,44 @@ class Penalties extends Component
         }
     }
 
+    public function removeFile($file): void
+    {
+        try {
+            DB::beginTransaction();
+            $image = $this->penalty->images()->where('url', $file)->first();
+            if ($image->count() === 0) {
+                $this->toast('error', 'Archivo no encontrado');
+                return;
+            }
+            $image->delete();
+            Storage::disk('public')->delete($file);
+            $this->files = $this->penalty->images?->pluck('url')->toArray();
+            $this->files = $this->penalty->images()
+                ->where('imageable_id', $this->penalty->id)
+                ->where('imageable_type', Penalty::class)
+                ->pluck('url')
+                ->toArray();
+            DB::commit();
+        } catch (\Exception $e) {
+            $this->toast('error', errorHelper($e));
+        }
+    }
+
     public function save(): void
     {
         $this->validate();
         try {
             DB::beginTransaction();
             $this->penalty->save();
+            if (count($this->images) > 0) {
+                foreach ($this->images as $image) {
+                    $this->penalty->images()->updateOrCreate(['url' => $image->store('images')]);
+                }
+            }
+            DB::commit();
             $this->showingModal = false;
             $this->emit('refreshDatatable');
             $this->toast('success', $this->isEditing ? 'Ticket editado' : 'Ticket creado');
-            DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             $this->toast('error', errorHelper($e));

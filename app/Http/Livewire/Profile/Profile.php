@@ -11,7 +11,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -20,13 +19,15 @@ class Profile extends Component
     use ToastTrait, WithFileUploads;
 
     public Collection $user;
-    public $image, $urlImage;
+    public $image, $urlImage = [];
     public $currentPassword, $newPassword, $newPassword_confirmation;
 
     public function mount(): void
     {
         $user = auth()->user();
-        $this->urlImage = $user->image ? Storage::disk('public')->url($user->image->url) : null;
+        if ($user->image) {
+            $this->urlImage[] = $user->image->url;
+        }
         $this->fill([
             'user' => collect([
                 'id' => $user->id,
@@ -62,7 +63,8 @@ class Profile extends Component
                 $this->image->delete();
             }
             DB::commit();
-            $this->toast('success', 'Usuario editado');
+            session()->flash('success', 'Perfil actualizado');
+            $this->redirectRoute('profile');
         } catch (\Exception $e) {
             DB::rollBack();
             $this->toast('error', errorHelper($e));

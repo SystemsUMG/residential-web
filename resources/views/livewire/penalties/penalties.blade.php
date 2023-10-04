@@ -15,6 +15,7 @@
         </div>
         <livewire:penalties.penalties-table/>
     </div>
+
     <x-modal wire:model="showingModal">
         <div class="modal-content">
             <div class="modal-header pb-0">
@@ -58,7 +59,7 @@
                             >
                                 <option value="generated">Seleccione un guardia</option>
                                 @forelse($users as $id => $user)
-                                    <option value="{{ $id }}">{{ $user }}</option>
+                                    <option value="{{ $id }}">{!! $user !!}</option>
                                 @empty
                                     <option value="">Sin usuarios</option>
                                 @endforelse
@@ -88,6 +89,12 @@
                                 <option value="">Sin Categorías</option>
                             @endforelse
                         </x-inputs.select>
+                        <x-inputs.image
+                            name="images"
+                            :model="$images"
+                            :files="$files"
+                            multiple
+                        />
                     </div>
                     <div class="d-flex justify-content-between">
                         <button

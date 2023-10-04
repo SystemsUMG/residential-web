@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('description');
             $table->float('amount')->nullable();
             $table->string('status')->default(StatusType::Generado->value);
-            $table->foreignId('house_id')->constrained('houses')->nullable();
-            $table->foreignId('user_id')->constrained('users')->nullable();
-            $table->foreignId('penalty_category_id')->constrained('penalty_categories')->nullable();
+            $table->foreignId('house_id')->constrained('houses');
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('penalty_category_id')->constrained('penalty_categories');
             $table->timestamps();
         });
     }

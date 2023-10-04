@@ -15,16 +15,18 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Tickets extends Component
 {
-    use ToastTrait, AuthorizesRequests;
+    use ToastTrait, AuthorizesRequests, WithFileUploads;
 
     protected $listeners = ['edit', 'delete', 'changeStatus'];
     public $showingModal = false, $isEditing = false, $modalTitle = '';
     public Ticket $ticket;
-    public $houses = [], $users = [], $ticketCategories = [];
+    public $houses = [], $users = [], $ticketCategories = [], $images = [], $files = [];
 
     protected $rules = [
         'ticket.description' => 'required',
@@ -32,6 +34,7 @@ class Tickets extends Component
         'ticket.house_id' => 'required|exists:houses,id',
         'ticket.user_id' => 'required_if:isEditing,true|exists:users,id',
         'ticket.ticket_category_id' => 'required|exists:ticket_categories,id',
+        'images.*' => 'mimes:png,jpg,jpeg',
     ];
 
     public function mount(): void
@@ -47,6 +50,8 @@ class Tickets extends Component
         $this->ticket = new Ticket();
         $this->modalTitle = 'Crear ticket';
         $this->resetErrorBag();
+        $this->images = [];
+        $this->files = [];
         $this->isEditing = false;
         $this->ticket->status = StatusType::Generado;
         $this->ticket->user_id = auth()->user()->id;
@@ -58,6 +63,8 @@ class Tickets extends Component
         $this->ticket = $ticket;
         $this->modalTitle = 'Editar ticket';
         $this->resetErrorBag();
+        $this->images = [];
+        $this->files = $this->ticket->images?->pluck('url')->toArray();
         $this->isEditing = true;
         $this->showingModal = true;
     }
@@ -106,16 +113,44 @@ class Tickets extends Component
         }
     }
 
+    public function removeFile($file): void
+    {
+        try {
+            DB::beginTransaction();
+            $image = $this->ticket->images()->where('url', $file)->first();
+            if ($image->count() === 0) {
+                $this->toast('error', 'Archivo no encontrado');
+                return;
+            }
+            $image->delete();
+            Storage::disk('public')->delete($file);
+            $this->files = $this->ticket->images?->pluck('url')->toArray();
+            $this->files = $this->ticket->images()
+                ->where('imageable_id', $this->ticket->id)
+                ->where('imageable_type', Ticket::class)
+                ->pluck('url')
+                ->toArray();
+            DB::commit();
+        } catch (\Exception $e) {
+            $this->toast('error', errorHelper($e));
+        }
+    }
+
     public function save(): void
     {
         $this->validate();
         try {
             DB::beginTransaction();
             $this->ticket->save();
+            if (count($this->images) > 0) {
+                foreach ($this->images as $image) {
+                    $this->ticket->images()->updateOrCreate(['url' => $image->store('images')]);
+                }
+            }
+            DB::commit();
             $this->showingModal = false;
             $this->emit('refreshDatatable');
             $this->toast('success', $this->isEditing ? 'Ticket editado' : 'Ticket creado');
-            DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
             $this->toast('error', errorHelper($e));
