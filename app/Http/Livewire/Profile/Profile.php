@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -89,6 +90,25 @@ class Profile extends Component
             $this->toast('success', 'Contraseña cambiada');
         } catch (\Exception $e) {
             DB::rollBack();
+            $this->toast('error', errorHelper($e));
+        }
+    }
+
+    public function removeFile($file): void
+    {
+        try {
+            DB::beginTransaction();
+            $user = auth()->user();
+            $image = $user->image()->where('url', $file)->first();
+            if (!$image) {
+                $this->toast('error', 'Archivo no encontrado');
+                return;
+            }
+            $image->delete();
+            Storage::disk('public')->delete($file);
+            $this->urlImage = $user->image ? [$user->image->url] : [];
+            DB::commit();
+        } catch (\Exception $e) {
             $this->toast('error', errorHelper($e));
         }
     }
