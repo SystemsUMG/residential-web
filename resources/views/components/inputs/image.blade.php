@@ -12,8 +12,8 @@
                     <img class="img-thumbnail" src="{{ Storage::disk('public')->url($file) }}">
                     <span wire:click="removeFile('{{ $file }}')"
                           class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger p-0 cursor-pointer">
-                    <i class="ti ti-x"></i>
-                </span>
+                        <i class="ti ti-x"></i>
+                    </span>
                 </div>
             @endforeach
         </div>
@@ -58,8 +58,8 @@
             </div>
         </div>
     @else
-        @if($model)
-            <div class="row gap-3 justify-content-center">
+        <div class="row gap-3 justify-content-center">
+            @if($model)
                 <div class="position-relative w-25 p-0">
                     <img class="img-thumbnail" src="{{ $model->temporaryUrl() }}">
                     <span
@@ -68,8 +68,8 @@
                         <i class="ti ti-x"></i>
                     </span>
                 </div>
-            </div>
-        @endif
+            @endif
+        </div>
         <div x-data="{ isUploading: false, progress: 0 }"
              x-on:livewire-upload-start="isUploading = true"
              x-on:livewire-upload-finish="isUploading = false"
@@ -85,16 +85,14 @@
             <div class="mb-3">
                 <label class="text-dark-emphasis mb-2" for="{{ $name }}"></label>
                 <input
-                    multiple
                     type="file"
                     class="form-control"
                     wire:model="{{ $name }}"
                 >
-                @error($name)
+                @error("$name")
                 @include('components.inputs.partials.error')
                 @enderror
             </div>
         </div>
-
     @endif
 </div>
