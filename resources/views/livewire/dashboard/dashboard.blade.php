@@ -322,8 +322,8 @@
 
         let statusHouseConfig = {
             color: "#adb5bd",
-            series: [{{ $houseAvailable ?? 0 }}, {{ $houseNotAvailable ?? 0 }}],
-            labels: ["Ocupadas", "Vacantes"],
+            series: [{{ $houseNotAvailable ?? 0 }}, {{ $houseAvailable ?? 0 }}],
+            labels: ["Vacantes", "Ocupadas"],
             chart: {
                 width: 180,
                 type: "donut",
